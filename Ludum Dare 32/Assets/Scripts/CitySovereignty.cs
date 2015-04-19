@@ -3,25 +3,47 @@ using System.Collections;
 
 public class CitySovereignty : MonoBehaviour {
 
+//	Battle battleScript;
+
+	public bool isOccupied;
+
+//	void runBattle()
+//	{
+//
+//	}
+
+	void whoOwns()
+	{
+
+	}
+
 	void OnTriggerEnter2D(Collider2D collider)
 	{
+		//If Side 1 collides with the city and it's not owned by Side 2
 		if(collider.gameObject.layer == 8 && this.gameObject.tag != "Owned by 2")
 		{
 			this.gameObject.tag = "Owned by 1";
+			isOccupied = true;
+			//Change to City Blue
 		}
+		//If Side 2 collides with the city and it's not owned by Side 1
 		else if(collider.gameObject.layer == 9 && this.gameObject.tag != "Owned by 1")
 		{
 			this.gameObject.tag = "Owned by 2";
+			isOccupied = true;
+			//Change to City Red
 		}
-		else
-		{
-
-		}
+//		//Else, duke it out! (Maybe not do this. It goes beyond the scope of what the script
+//		//is supposed to do and you already have a CollisionHandler.
+//		else
+//		{
+//			runBattle();
+//		}
 	}
 
 	// Use this for initialization
 	void Start () {
-	
+//		battleScript = GetComponent<Battle>();
 	}
 	
 	// Update is called once per frame

@@ -13,7 +13,14 @@ public class CollisionHandler : MonoBehaviour {
 	{
 		//characterMoveScript.moving = true;
 		colliding = true;
-		collider.gameObject.tag = "To Merge";
+		if(collider.gameObject.name == "Map" || collider.gameObject.name == "City")
+		{
+			//collider.gameObject.tag = 
+		}
+		else
+		{
+			collider.gameObject.tag = "To Merge";
+		}
 		colliderStore = collider.gameObject.name;
 	}
 	void OnTriggerExit2D(Collider2D collider)
@@ -25,6 +32,7 @@ public class CollisionHandler : MonoBehaviour {
 	{
 		objectToMerge = GameObject.FindGameObjectWithTag("To Merge");
 		objectToMerge.transform.position = transform.position;
+		characterMoveScript.moving = false;
 	}
 
 	void collisionResult()
@@ -36,8 +44,8 @@ public class CollisionHandler : MonoBehaviour {
 		}
 		else if(colliderStore.Equals("City"))
 		{
-			Debug.Log("You terrorist...");
-			if(
+			//Debug.Log("You terrorist...");
+			//if(
 		}
 	}
 
@@ -54,8 +62,8 @@ public class CollisionHandler : MonoBehaviour {
 			{
 				collisionResult();
 			}
-			if(objectToMerge != null)
-				objectToMerge.gameObject.tag = "To Merge";
+//			if(objectToMerge != null)
+//				objectToMerge.gameObject.tag = "To Merge";
 		}
 		else
 		{
@@ -64,8 +72,8 @@ public class CollisionHandler : MonoBehaviour {
 		}
 		if(objectToMerge != null)
 		{
-			Debug.Log(objectToMerge.tag);
-			Debug.Log(objectToMerge.transform.position);
+//			Debug.Log(objectToMerge.tag);
+//			Debug.Log(objectToMerge.transform.position);
 		}
 	}
 }

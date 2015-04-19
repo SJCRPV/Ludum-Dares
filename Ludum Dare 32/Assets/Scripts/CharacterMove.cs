@@ -8,12 +8,17 @@ public class CharacterMove : MonoBehaviour {
 	private Vector3 endPositionStore;
 	private float distanceTravelled;
 	private int distancePerAP;
+	private RaycastHit2D isItThere;
+	private float angle;
+	private Vector2 angleInRad;
+	private int startingLayer;
 
 	public bool stackSelected;
 	public bool mouseOnObject;
 	public bool moving;
 	public float characterSpeed;
 	public float actionPoints;
+	public LayerMask layerMask;
 
 	public Vector3 getEndPosition()
 	{
@@ -88,10 +93,12 @@ public class CharacterMove : MonoBehaviour {
 			if(stackSelected)
 			{
 				Debug.Log("Clicked on the object!");
+				gameObject.layer = 13;
 			}
 			else
 			{
 				Debug.Log("Unselected the object!");
+				gameObject.layer = startingLayer;
 			}
 		}
 	}
@@ -105,6 +112,7 @@ public class CharacterMove : MonoBehaviour {
 		moving = false;
 		distanceTravelled = 0;
 		distancePerAP = 1;
+		startingLayer = gameObject.layer;
 	}
 	
 	// Update is called once per frame
@@ -115,20 +123,26 @@ public class CharacterMove : MonoBehaviour {
 			{
 				Debug.Log("You de-selected the object.");
 				stackSelected = false;
+				gameObject.layer = startingLayer;
 			}
 		}
 		if(Input.GetMouseButtonDown(1) && stackSelected == true)
 		{
 			endPositionStore = Input.mousePosition;
-			Collider[] doesItOverlap = Physics.OverlapSphere(endPositionStore, endPositionStore.x/2);
-			if(doesItOverlap.Length > 0)
-			{
-				gameObject.tag = "To Merge";
-			}
-			else
-			{
-				gameObject.tag = "Soldier";
-			}
+			angle = Vector2.Angle(transform.position, endPosition);
+			angleInRad = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
+			isItThere = Physics2D.Raycast(endPosition, angleInRad, Mathf.Infinity, layerMask);
+//			Debug.DrawRay(transform.position, endPosition, Color.blue);
+			Debug.Log("colided with " + isItThere.collider.name + " at layer " + isItThere.collider.gameObject.layer);
+//			if(isItThere.Length > 0)
+//			{
+//				Debug.Log("There's something there!");
+//				gameObject.tag = "To Merge";
+//			}
+//			else
+//			{
+//				gameObject.tag = "Soldier";
+//			}
 		}
 		setMovement();
 		moveCharacter();
