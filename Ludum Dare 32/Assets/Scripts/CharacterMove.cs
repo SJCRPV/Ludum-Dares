@@ -8,7 +8,6 @@ public class CharacterMove : MonoBehaviour {
 	private Vector3 endPositionStore;
 	private float distanceTravelled;
 	private int distancePerAP;
-	//private float timeSinceLerpStart;
 
 	public bool stackSelected;
 	public bool mouseOnObject;
@@ -24,22 +23,21 @@ public class CharacterMove : MonoBehaviour {
 	void unassignLerpVars()
 	{
 		moving = false;
-		//timeSinceLerpStart = 0f;
 	}
 
 	void startLerping()
 	{
 		moving = true;
-		//timeSinceLerpStart = Time.time;
 	}
 
 	void setMovement()
 	{
-		//if(Input.GetMouseButtonDown(1))
+		//The fact that I'm denying the (0,0,0) vector may be causing problems with the 
+		//first instantiation of the Generic Soldier being un-interactable until a 2nd
+		//soldier is created
 		if(endPositionStore != new Vector3(0,0,0))
 		{
 			//Debug.Log("Clicked the right mouse button!");
-			//Debug.Log(Input.mousePosition);
 			startLerping();
 			startPosition = transform.position;
 			endPosition = Camera.main.ScreenToWorldPoint(endPositionStore);
@@ -122,6 +120,15 @@ public class CharacterMove : MonoBehaviour {
 		if(Input.GetMouseButtonDown(1) && stackSelected == true)
 		{
 			endPositionStore = Input.mousePosition;
+			Collider[] doesItOverlap = Physics.OverlapSphere(endPositionStore, endPositionStore.x/2);
+			if(doesItOverlap.Length > 0)
+			{
+				gameObject.tag = "To Merge";
+			}
+			else
+			{
+				gameObject.tag = "Soldier";
+			}
 		}
 		setMovement();
 		moveCharacter();

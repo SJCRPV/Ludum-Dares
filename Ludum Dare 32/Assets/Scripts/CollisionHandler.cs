@@ -4,29 +4,40 @@ using System.Collections;
 public class CollisionHandler : MonoBehaviour {
 
 	CharacterMove characterMoveScript;
+	GameObject objectToMerge;
 
 	private bool colliding;
 	string colliderStore;
 
 	void OnTriggerEnter2D(Collider2D collider)
 	{
+		//characterMoveScript.moving = true;
 		colliding = true;
-		Debug.Log(colliderStore = collider.gameObject.name);
+		collider.gameObject.tag = "To Merge";
+		colliderStore = collider.gameObject.name;
 	}
-	void OnTriggerExit2D()
+	void OnTriggerExit2D(Collider2D collider)
 	{
 		colliding = false;
+	}
+
+	void mergeUnits()
+	{
+		objectToMerge = GameObject.FindGameObjectWithTag("To Merge");
+		objectToMerge.transform.position = transform.position;
 	}
 
 	void collisionResult()
 	{
 		if(colliderStore.Equals("Generic Soldier"))
 		{
-			Debug.Log("*Bump*");
+			//Debug.Log("*Bump*"); 
+			mergeUnits();
 		}
 		else if(colliderStore.Equals("City"))
 		{
 			Debug.Log("You terrorist...");
+			if(
 		}
 	}
 
@@ -37,10 +48,24 @@ public class CollisionHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(colliding == true && characterMoveScript.moving == false)
+		if(colliding == true)
 		{
-			collisionResult();
+			if(characterMoveScript.moving == false)
+			{
+				collisionResult();
+			}
+			if(objectToMerge != null)
+				objectToMerge.gameObject.tag = "To Merge";
 		}
-
+		else
+		{
+			if(objectToMerge != null)
+				objectToMerge.gameObject.tag = "Soldier";
+		}
+		if(objectToMerge != null)
+		{
+			Debug.Log(objectToMerge.tag);
+			Debug.Log(objectToMerge.transform.position);
+		}
 	}
 }
