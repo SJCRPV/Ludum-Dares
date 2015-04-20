@@ -12,6 +12,7 @@ public class CharacterMove : MonoBehaviour {
 	private float angle;
 	private Vector2 angleInRad;
 	private int startingLayer;
+	private SpriteRenderer childrenSprite;
 
 	public bool stackSelected;
 	public bool mouseOnObject;
@@ -93,11 +94,13 @@ public class CharacterMove : MonoBehaviour {
 			if(stackSelected)
 			{
 				Debug.Log("Clicked on the object!");
+				childrenSprite.enabled = true;
 				gameObject.layer = 13;
 			}
 			else
 			{
 				Debug.Log("Unselected the object!");
+				childrenSprite.enabled = false;
 				gameObject.layer = startingLayer;
 			}
 		}
@@ -113,6 +116,7 @@ public class CharacterMove : MonoBehaviour {
 		distanceTravelled = 0;
 		distancePerAP = 1;
 		startingLayer = gameObject.layer;
+		childrenSprite = GetComponentInChildren<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
