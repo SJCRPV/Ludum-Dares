@@ -5,27 +5,28 @@ public class CollisionHandler : MonoBehaviour {
 
 	CharacterMove characterMoveScript;
 	GameObject objectToMerge;
+	Collider2D collidingObject;
 
-	private bool colliding;
-	string colliderStore;
+	private bool collision;
+	private int ownLayer;
+	private int enemyLayer;
+	//private int colliderStore;
 
-	void OnTriggerEnter2D(Collider2D collider)
+	void whichIsEnemy()
 	{
-		//characterMoveScript.moving = true;
-		colliding = true;
-		if(collider.gameObject.name == "Map" || collider.gameObject.name == "City")
+		if(gameObject.layer == 8)
 		{
-			//collider.gameObject.tag = 
+			enemyLayer = 9;
 		}
 		else
 		{
-			collider.gameObject.tag = "To Merge";
+			enemyLayer = 8;
 		}
-		colliderStore = collider.gameObject.name;
 	}
-	void OnTriggerExit2D(Collider2D collider)
+
+	void fight()
 	{
-		colliding = false;
+
 	}
 
 	void mergeUnits()
@@ -37,33 +38,62 @@ public class CollisionHandler : MonoBehaviour {
 
 	void collisionResult()
 	{
-		if(colliderStore.Equals("Generic Soldier"))
+		switch(collidingObject.gameObject.layer)
 		{
-			//Debug.Log("*Bump*"); 
+		//Own Layer
+		case ownLayer:
+			collidingObject.gameObject.tag = "To Merge";
+			//Debug.Log(collider.gameObject.name + " has just been assigned the tag of: " + collider.gameObject.tag);
 			mergeUnits();
+			break;
+
+		case enemyLayer:
+			fight();
+			break;
+
+		//Map Layer
+		case 11: 
+
+			break;
+
+		//City Layer
+		case 12:
+
+			break;
+
 		}
-		else if(colliderStore.Equals("City"))
-		{
-			//Debug.Log("You terrorist...");
-			//if(
-		}
+	}
+
+	void OnTriggerEnter2D(Collider2D collider)
+	{
+		//characterMoveScript.moving = true;
+		collision = true;
+		//colliderStore = collider.gameObject.layer;
+		collidingObject = collider;
+
+		collisionResult();
+	}
+
+	void OnTriggerExit2D(Collider2D collider)
+	{
+		collision = false;
 	}
 
 	// Use this for initialization
 	void Start () {
 		characterMoveScript = GetComponent<CharacterMove>();
+		ownLayer = gameObject.layer;
+		whichIsEnemy();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(colliding == true)
+		if(collision == true)
 		{
 			if(characterMoveScript.moving == false)
 			{
 				collisionResult();
 			}
-//			if(objectToMerge != null)
-//				objectToMerge.gameObject.tag = "To Merge";
 		}
 		else
 		{

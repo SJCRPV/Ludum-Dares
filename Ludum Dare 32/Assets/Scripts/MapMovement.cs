@@ -9,13 +9,19 @@ public class MapMovement : MonoBehaviour {
 	void Zoom()
 	{
 		if (Input.GetAxis("Mouse ScrollWheel") < 0) // back 
-		{ 
-			Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize+1, 1);
+		{
+			if(Camera.main.orthographicSize < 6)
+			{
+				Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize+1, 1);
+			}
 		}
 		
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
 		{
-			Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize-1, 50);
+			if(Camera.main.orthographicSize > 1)
+			{
+				Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize-1, 50);
+			}
 		}
 	}
 

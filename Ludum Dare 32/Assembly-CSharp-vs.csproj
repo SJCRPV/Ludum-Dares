@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Battle.cs" />
      <Compile Include="Assets\Scripts\CharacterMove.cs" />
+     <Compile Include="Assets\Scripts\CharacterStats.cs" />
      <Compile Include="Assets\Scripts\CitySovereignty.cs" />
      <Compile Include="Assets\Scripts\CollisionHandler.cs" />
      <Compile Include="Assets\Scripts\MapMovement.cs" />

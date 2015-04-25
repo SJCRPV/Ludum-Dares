@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CharacterMove.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Unity-Stuff\Bullet-Hell\Assets\Scripts\EnemyMove.cs">
     <Files>
-      <File FileName="Assets\Scripts\CharacterMove.cs" Line="96" Column="41" />
-      <File FileName="Assets\Scripts\CollisionHandler.cs" Line="34" Column="57" />
-      <File FileName="Assets\Scripts\Battle.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\CitySovereignty.cs" Line="1" Column="1" />
+      <File FileName="..\..\Unity-Stuff\Bullet-Hell\Assets\Scripts\EnemyMove.cs" Line="147" Column="5" />
+      <File FileName="Assets\Scripts\CharacterMove.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

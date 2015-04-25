@@ -20,16 +20,20 @@ public class CitySovereignty : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collider)
 	{
 		//If Side 1 collides with the city and it's not owned by Side 2
-		if(collider.gameObject.layer == 8 && this.gameObject.tag != "Owned by 2")
+		Debug.Log(collider.gameObject.layer);
+		Debug.Log(this.gameObject.tag);
+		if(collider.gameObject.layer == 13 && this.gameObject.tag != "Owned by 2")
 		{
 			this.gameObject.tag = "Owned by 1";
+			Debug.Log(gameObject.tag);
 			isOccupied = true;
 			//Change to City Blue
 		}
 		//If Side 2 collides with the city and it's not owned by Side 1
-		else if(collider.gameObject.layer == 9 && this.gameObject.tag != "Owned by 1")
+		else if(collider.gameObject.layer == 13 && this.gameObject.tag != "Owned by 1")
 		{
 			this.gameObject.tag = "Owned by 2";
+			Debug.Log(gameObject.tag);
 			isOccupied = true;
 			//Change to City Red
 		}

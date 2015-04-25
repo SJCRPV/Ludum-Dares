@@ -36,6 +36,22 @@ public class CharacterMove : MonoBehaviour {
 		moving = true;
 	}
 
+	void isSelected()
+	{
+		if(stackSelected)
+		{
+			childrenSprite.enabled = true;
+			Debug.Log("Clicked on the object!");
+			gameObject.layer = 13;
+		}
+		else
+		{
+			childrenSprite.enabled = false;
+			Debug.Log("Unselected the object!");
+			gameObject.layer = startingLayer;
+		}
+	}
+
 	void setMovement()
 	{
 		//The fact that I'm denying the (0,0,0) vector may be causing problems with the 
@@ -46,7 +62,7 @@ public class CharacterMove : MonoBehaviour {
 			//Debug.Log("Clicked the right mouse button!");
 			startLerping();
 			startPosition = transform.position;
-			endPosition = Camera.main.ScreenToWorldPoint(endPositionStore);
+			endPosition = endPositionStore;
 			endPosition.z = transform.position.z;
 		}
 	}
@@ -91,18 +107,7 @@ public class CharacterMove : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0))
 		{
 			stackSelected = !stackSelected;
-			if(stackSelected)
-			{
-				Debug.Log("Clicked on the object!");
-				childrenSprite.enabled = true;
-				gameObject.layer = 13;
-			}
-			else
-			{
-				Debug.Log("Unselected the object!");
-				childrenSprite.enabled = false;
-				gameObject.layer = startingLayer;
-			}
+			isSelected();
 		}
 	}
 	void OnMouseExit()
@@ -116,7 +121,7 @@ public class CharacterMove : MonoBehaviour {
 		distanceTravelled = 0;
 		distancePerAP = 1;
 		startingLayer = gameObject.layer;
-		childrenSprite = GetComponentInChildren<SpriteRenderer>();
+		childrenSprite = GameObject.Find("Selection").GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -125,6 +130,7 @@ public class CharacterMove : MonoBehaviour {
 		{
 			if(stackSelected == true && mouseOnObject == false)
 			{
+				isSelected();
 				Debug.Log("You de-selected the object.");
 				stackSelected = false;
 				gameObject.layer = startingLayer;
@@ -132,21 +138,11 @@ public class CharacterMove : MonoBehaviour {
 		}
 		if(Input.GetMouseButtonDown(1) && stackSelected == true)
 		{
-			endPositionStore = Input.mousePosition;
+			endPositionStore = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			angle = Vector2.Angle(transform.position, endPosition);
 			angleInRad = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
 			isItThere = Physics2D.Raycast(endPosition, angleInRad, Mathf.Infinity, layerMask);
-//			Debug.DrawRay(transform.position, endPosition, Color.blue);
-			Debug.Log("colided with " + isItThere.collider.name + " at layer " + isItThere.collider.gameObject.layer);
-//			if(isItThere.Length > 0)
-//			{
-//				Debug.Log("There's something there!");
-//				gameObject.tag = "To Merge";
-//			}
-//			else
-//			{
-//				gameObject.tag = "Soldier";
-//			}
+			//Debug.Log("colided with " + isItThere.collider.name + " at layer " + isItThere.collider.gameObject.layer);
 		}
 		setMovement();
 		moveCharacter();
