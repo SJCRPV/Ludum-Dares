@@ -1,0 +1,6 @@
+[submodule "Ludum-Dares"]
+	path = Ludum-Dares
+	url = https://github.com/SJCRPV/Ludum-Dares.git
+[submodule "Ludum-Dare-34"]
+	path = Ludum-Dare-34
+	url = https://github.com/SJCRPV/Ludum-Dare-34.git
