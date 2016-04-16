@@ -12,7 +12,7 @@ public class WanderAimlessly : MonoBehaviour {
     void newPath()
     {
         new WaitForSeconds(5);
-        targetPoint = new Vector3(Random.Range(-90, 90), 0, Random.Range(-90, 90));
+        targetPoint = new Vector3(Random.Range(10, 490), 1, Random.Range(10, 490));
     }
 
 	// Use this for initialization

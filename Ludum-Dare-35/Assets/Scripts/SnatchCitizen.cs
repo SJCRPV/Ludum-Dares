@@ -11,6 +11,11 @@ public class SnatchCitizen : MonoBehaviour {
     private GenerateCitizens citizenGenerator;
     private Renderer playerRenderer;
 
+    private void kill()
+    {
+        Destroy(citizenGrabbed.gameObject, 5);
+    }
+
     private void snatch()
     {
         if (Vector3.Distance(transform.position, citizenGrabbed.transform.position) < minSnatchRadius)
@@ -18,7 +23,11 @@ public class SnatchCitizen : MonoBehaviour {
             playerRenderer = GetComponent<Renderer>();
             playerRenderer.sharedMaterial = citizenGrabbed.GetComponent<Renderer>().sharedMaterial;
             Debug.Log("Your current material is: " + playerRenderer.sharedMaterial + "\nThe index of the citizen you killed was: " + closestCitizenIndex);
-            Debug.Log("Your position at the time was: " + transform.position + "\nYour victim's position at the time was: " + citizenGrabbed.transform.position);
+            Debug.Log("Your position at the time was: " + transform.position);
+            citizenGrabbed.GetComponent<WanderAimlessly>().enabled = false;
+            citizenGrabbed.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            citizenGrabbed.GetComponent<Rigidbody>().AddForce(Vector3.Cross(transform.position.normalized, new Vector3(-1, -1, -1)));
+            kill();
         }
         else
         {

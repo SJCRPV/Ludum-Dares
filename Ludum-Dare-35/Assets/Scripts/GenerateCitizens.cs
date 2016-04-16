@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GenerateCitizens : MonoBehaviour {
 
@@ -8,13 +9,13 @@ public class GenerateCitizens : MonoBehaviour {
     public Material[] materialList = new Material[8];
 
     private GameObject citizenInstance;
-    private GameObject[] citizenPool;
+    private List<GameObject> citizenPool;
     private Renderer citizenRenderer;
     private int target;
 
     public int getCitizenPoolLength()
     {
-        return citizenPool.Length;
+        return citizenPool.Count;
     }
 
     public GameObject getCitizenAt(int index)
@@ -24,7 +25,7 @@ public class GenerateCitizens : MonoBehaviour {
 
     void selectTarget()
     {
-        target = Random.Range(0, citizenPool.Length);
+        target = Random.Range(0, citizenPool.Count);
         Behaviour halo = (Behaviour)citizenPool[target].GetComponent("Halo");
         halo.enabled = true;
     }
@@ -41,14 +42,15 @@ public class GenerateCitizens : MonoBehaviour {
         {
             citizenRenderer = citizenPrefab.GetComponent<Renderer>();
             assignMaterial();
-            citizenPool[i] = Instantiate((GameObject)citizenPrefab);
-            citizenPool[i].transform.position = new Vector3(Random.Range(-90, 90), 0, Random.Range(-90, 90));
+            citizenPool.Add((GameObject)citizenPrefab);
+            Instantiate(citizenPool[i]);
+            citizenPool[i].transform.position = new Vector3(Random.Range(10, 490), 1, Random.Range(0, 490));
         }
     }
 
 	// Use this for initialization
 	void Start () {
-        citizenPool = new GameObject[numCitizensToSpawn];
+        citizenPool = new List<GameObject>();
         createCitizens();
         selectTarget();
 	}
