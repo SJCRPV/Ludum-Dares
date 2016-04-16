@@ -26,7 +26,9 @@ public class SnatchCitizen : MonoBehaviour {
             Debug.Log("Your position at the time was: " + transform.position);
             citizenGrabbed.GetComponent<WanderAimlessly>().enabled = false;
             citizenGrabbed.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            citizenGrabbed.GetComponent<Rigidbody>().AddForce(Vector3.Cross(transform.position.normalized, new Vector3(-1, -1, -1)));
+            //citizenGrabbed.GetComponent<Rigidbody>().AddForce(Vector3.Cross(transform.position.normalized, new Vector3(-1, -1, -1)));
+            //citizenGrabbed.GetComponent<Rigidbody>().AddForce(transform.position.normalized * Vector3.Distance(transform.position, citizenGrabbed.transform.position));
+            citizenGrabbed.GetComponent<Rigidbody>().AddExplosionForce(3, transform.position, 4, 0, ForceMode.Impulse);
             kill();
         }
         else
@@ -41,7 +43,7 @@ public class SnatchCitizen : MonoBehaviour {
         citizenGrabbed = null;
         for (int i = 1; i < citizenGenerator.getCitizenPoolLength(); i++)
         {
-            if (Vector3.Distance(transform.position, citizenGenerator.getCitizenAt(i).transform.position) <= closestCitizen)
+            if (citizenGenerator.getCitizenAt(i) != null && Vector3.Distance(transform.position, citizenGenerator.getCitizenAt(i).transform.position) <= closestCitizen)
             {
                 closestCitizen = Vector3.Distance(transform.position, citizenGenerator.getCitizenAt(i).transform.position);
                 closestCitizenIndex = i;

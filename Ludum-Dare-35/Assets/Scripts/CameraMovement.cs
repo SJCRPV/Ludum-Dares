@@ -3,6 +3,22 @@ using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
 
+    public float cameraRotation;
+
+    void rotateCamera()
+    {
+        //Try to smoothe this transition. The jump is disorienting
+        //Quaternion target;
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            transform.Rotate(Vector3.down * cameraRotation, Space.World);           
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            transform.Rotate(Vector3.up * cameraRotation, Space.World);
+        }
+    }
+
     void zoom()
     {
         if (Input.GetAxis("Mouse ScrollWheel") < 0) // back 
@@ -31,5 +47,6 @@ public class CameraMovement : MonoBehaviour {
 	void Update () {
         zoom();
         centerPlayer();
+        rotateCamera();
 	}
 }

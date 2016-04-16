@@ -8,7 +8,6 @@ public class GenerateCitizens : MonoBehaviour {
     public GameObject citizenPrefab;
     public Material[] materialList = new Material[8];
 
-    private GameObject citizenInstance;
     private List<GameObject> citizenPool;
     private Renderer citizenRenderer;
     private int target;
@@ -28,6 +27,8 @@ public class GenerateCitizens : MonoBehaviour {
         target = Random.Range(0, citizenPool.Count);
         Behaviour halo = (Behaviour)citizenPool[target].GetComponent("Halo");
         halo.enabled = true;
+        citizenPool[target].name = "Target";
+        Debug.Log("Target is the citizen at " + target);
     }
 
     void assignMaterial()
@@ -43,8 +44,9 @@ public class GenerateCitizens : MonoBehaviour {
             citizenRenderer = citizenPrefab.GetComponent<Renderer>();
             assignMaterial();
             citizenPool.Add((GameObject)citizenPrefab);
-            Instantiate(citizenPool[i]);
-            citizenPool[i].transform.position = new Vector3(Random.Range(10, 490), 1, Random.Range(0, 490));
+            citizenPool[i] = Instantiate(citizenPool[i]);
+            citizenPool[i].name = "Citizen " + (i + 1);
+            citizenPool[i].transform.position = new Vector3(Random.Range(10, 490), 1, Random.Range(10, 490));
         }
     }
 
