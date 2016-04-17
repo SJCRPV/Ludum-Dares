@@ -40,7 +40,8 @@ public class CameraMovement : MonoBehaviour {
 	
     void centerPlayer()
     {
-        gameObject.transform.position = GameObject.Find("Player").transform.position;
+        //gameObject.transform.position = GameObject.Find("Player").transform.position;
+        gameObject.transform.position = new Vector3(GameObject.Find("Player").transform.position.x - 30, GameObject.Find("Player").transform.position.y + 25, GameObject.Find("Player").transform.position.z - 30);
     }
 
 	// Update is called once per frame
