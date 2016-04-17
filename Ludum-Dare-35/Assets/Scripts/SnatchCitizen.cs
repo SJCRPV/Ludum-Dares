@@ -4,6 +4,7 @@ using System.Collections;
 public class SnatchCitizen : MonoBehaviour {
 
     public double minSnatchRadius;
+    public float timeBeforeKill;
 
     private double closestCitizen;
     private int closestCitizenIndex;
@@ -13,7 +14,7 @@ public class SnatchCitizen : MonoBehaviour {
 
     private void kill()
     {
-        Destroy(citizenGrabbed.gameObject, 5);
+        Destroy(citizenGrabbed.gameObject, timeBeforeKill);
     }
 
     private void snatch()
@@ -24,11 +25,12 @@ public class SnatchCitizen : MonoBehaviour {
             playerRenderer.sharedMaterial = citizenGrabbed.GetComponent<Renderer>().sharedMaterial;
             Debug.Log("Your current material is: " + playerRenderer.sharedMaterial + "\nThe index of the citizen you killed was: " + closestCitizenIndex);
             Debug.Log("Your position at the time was: " + transform.position);
+            citizenGrabbed.GetComponent<WanderAimlessly>().pausePath();
             citizenGrabbed.GetComponent<WanderAimlessly>().enabled = false;
             citizenGrabbed.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            //citizenGrabbed.GetComponent<Rigidbody>().AddForce(Vector3.Cross(transform.position.normalized, new Vector3(-1, -1, -1)));
-            //citizenGrabbed.GetComponent<Rigidbody>().AddForce(transform.position.normalized * Vector3.Distance(transform.position, citizenGrabbed.transform.position));
             citizenGrabbed.GetComponent<Rigidbody>().AddExplosionForce(3, transform.position, 4, 0, ForceMode.Impulse);
+            //Basically: citizen[target].avoidPlayer.doIKnowPlayerFace();
+            citizenGenerator.getCitizenAt(citizenGenerator.getTargetNum()).GetComponent<AvoidPlayer>().doIKnowPlayerFace(false);
             kill();
         }
         else

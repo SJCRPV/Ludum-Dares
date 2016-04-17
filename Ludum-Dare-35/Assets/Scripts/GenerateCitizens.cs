@@ -22,12 +22,19 @@ public class GenerateCitizens : MonoBehaviour {
         return citizenPool[index];
     }
 
+    public int getTargetNum()
+    {
+        return target;
+    }
+
     void selectTarget()
     {
         target = Random.Range(0, citizenPool.Count);
         Behaviour halo = (Behaviour)citizenPool[target].GetComponent("Halo");
         halo.enabled = true;
+        citizenPool[target].GetComponent<SphereCollider>().enabled = true;
         citizenPool[target].name = "Target";
+        citizenPool[target].GetComponent<AvoidPlayer>().enabled = true;
         Debug.Log("Target is the citizen at " + target);
     }
 
@@ -46,6 +53,7 @@ public class GenerateCitizens : MonoBehaviour {
             citizenPool.Add((GameObject)citizenPrefab);
             citizenPool[i] = Instantiate(citizenPool[i]);
             citizenPool[i].name = "Citizen " + (i + 1);
+            citizenPool[i].transform.parent = gameObject.transform;
             citizenPool[i].transform.position = new Vector3(Random.Range(10, 490), 1, Random.Range(10, 490));
         }
     }

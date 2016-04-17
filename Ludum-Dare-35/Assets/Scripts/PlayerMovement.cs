@@ -8,6 +8,11 @@ public class PlayerMovement : MonoBehaviour {
     private Camera gameCamera;
     private CharacterController characterController;
 
+    public float getSpeed()
+    {
+        return speed;
+    }
+
     void move()
     {
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")) * speed;
