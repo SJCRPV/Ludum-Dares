@@ -7,9 +7,19 @@ public class WanderAimlessly : MonoBehaviour {
     public int speed;
 
     private float waitingTimeStore;
+    private bool isSnatchable = true;
     private Vector3 pathCandidate;
     private NavMeshPath targetPath;
     private NavMeshAgent agent;
+
+    public bool isCitizenSnatchable()
+    {
+        return isSnatchable;
+    }
+    public void snatched()
+    {
+        isSnatchable = false;
+    }
 
     public NavMeshAgent getAgent()
     {

@@ -12,6 +12,10 @@ public class AvoidPlayer : MonoBehaviour {
     private bool isRunning;
     private float timeBeforeRelaxingStore;
 
+    public bool doIKnowPlayerFace()
+    {
+        return knowsPlayerFace;
+    }
     public void doIKnowPlayerFace(bool answer)
     {
         knowsPlayerFace = answer;

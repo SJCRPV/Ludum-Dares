@@ -8,8 +8,7 @@ public class CameraMovement : MonoBehaviour {
     void rotateCamera()
     {
         //Try to smoothe this transition. The jump is disorienting
-        //Quaternion target;
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             transform.Rotate(Vector3.down * cameraRotation, Space.World);           
         }
@@ -40,14 +39,13 @@ public class CameraMovement : MonoBehaviour {
 	
     void centerPlayer()
     {
-        //gameObject.transform.position = GameObject.Find("Player").transform.position;
         gameObject.transform.position = new Vector3(GameObject.Find("Player").transform.position.x - 30, GameObject.Find("Player").transform.position.y + 25, GameObject.Find("Player").transform.position.z - 30);
     }
 
 	// Update is called once per frame
 	void Update () {
         zoom();
-        centerPlayer();
         rotateCamera();
+        centerPlayer();
 	}
 }
