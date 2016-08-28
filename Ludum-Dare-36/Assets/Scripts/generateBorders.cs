@@ -27,9 +27,13 @@ public class generateBorders : MonoBehaviour {
     private void setCorners()
     {
         topLeftCornerInstance = (GameObject)Instantiate(topLeftCorner, new Vector2(-18.2f, 7.75f), Quaternion.identity);
+        topLeftCornerInstance.transform.parent = this.transform;
         topRightCornerInstance = (GameObject)Instantiate(topRightCorner, new Vector2(18.2f, 7.75f), Quaternion.identity);
+        topRightCornerInstance.transform.parent = this.transform;
         bottomLeftCornerInstance = (GameObject)Instantiate(bottomLeftCorner, new Vector2(-18.2f, -6.75f), Quaternion.identity);
+        bottomLeftCornerInstance.transform.parent = this.transform;
         bottomRightCornerInstance = (GameObject)Instantiate(bottomRightCorner, new Vector2(18.2f, -6.75f), Quaternion.identity);
+        bottomRightCornerInstance.transform.parent = this.transform;
     }
 
     private void calculateDimensions()

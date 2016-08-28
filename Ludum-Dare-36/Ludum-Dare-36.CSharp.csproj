@@ -64,11 +64,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\crossbow.cs" />
+    <Compile Include="Assets\Scripts\gat.cs" />
     <Compile Include="Assets\Scripts\generateBorders.cs" />
     <Compile Include="Assets\Scripts\importantVars.cs" />
+    <Compile Include="Assets\Scripts\launcher.cs" />
     <Compile Include="Assets\Scripts\openDialogue.cs" />
     <Compile Include="Assets\Scripts\playerInteraction.cs" />
-    <Compile Include="Assets\launcher.cs" />
+    <Compile Include="Assets\Scripts\shotgun.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
