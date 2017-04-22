@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludum-Dare-38.Plugins", "Ludum-Dare-38.Plugins.csproj", "{D7498A32-33D3-97BE-EC27-39B05035E3F1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludum-Dare-38", "Ludum-Dare-38.csproj", "{7731138E-3E7E-3971-4AD1-5335D55A1EF5}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7498A32-33D3-97BE-EC27-39B05035E3F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7498A32-33D3-97BE-EC27-39B05035E3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7498A32-33D3-97BE-EC27-39B05035E3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7498A32-33D3-97BE-EC27-39B05035E3F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7731138E-3E7E-3971-4AD1-5335D55A1EF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7731138E-3E7E-3971-4AD1-5335D55A1EF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7731138E-3E7E-3971-4AD1-5335D55A1EF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
