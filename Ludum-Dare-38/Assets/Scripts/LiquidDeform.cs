@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiquidDeform : MonoBehaviour {
+public class LiquidDeform : Deform {
 
     [SerializeField]
     private GameObject waterPrefab;
 
-    public void deformLiquids(Vector3 point, )
-    {
+    private GameObject waterInstance;
 
+    public void deformLiquids(Vector3 point, float force, int forceRadius)
+    {
+        waterInstance = Instantiate(waterPrefab, point, Quaternion.identity);
     }
 
 	// Use this for initialization

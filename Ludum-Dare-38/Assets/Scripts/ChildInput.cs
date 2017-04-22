@@ -43,7 +43,7 @@ public class ChildInput : MonoBehaviour {
             {
                 Vector3 point = hit.point;
                 point += hit.normal * forceRadius;
-                deformer.deformLiquids()
+                deformer.deformLiquids(point, force, forceRadius);
             }
         }
     }

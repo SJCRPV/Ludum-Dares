@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ChildInput.cs" />
+    <Compile Include="Assets\Scripts\Deform.cs" />
     <Compile Include="Assets\Scripts\LiquidDeform.cs" />
     <Compile Include="Assets\Scripts\TerrainDeform.cs" />
   </ItemGroup>
