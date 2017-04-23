@@ -4,28 +4,25 @@ using UnityEngine;
 
 public class Deform : MonoBehaviour {
 
-    protected Terrain terrainToDeform;
-    protected TerrainData terrainData;
+    protected Terrain terrain;
+    protected TerrainData terrData;
     protected int terrWidth;
     protected int terrHeight;
 
-    private Vector3 convertToTerrainCoords(Vector3 worldCoor)
+    protected Vector3 convertToTerrainCoords(Vector3 worldCoor)
     {
         Vector3 returnVector = new Vector3();
-        Vector3 terrainPos = terrainToDeform.transform.position;
+        Vector3 terrainPos = terrain.transform.position;
 
-        returnVector.x = ((worldCoor.x - terrainPos.x) / terrainData.size.x) * terrainData.alphamapWidth;
-        returnVector.z = ((worldCoor.y - terrainPos.z) / terrainData.size.z) * terrainData.alphamapHeight;
+        returnVector.x = ((worldCoor.x - terrainPos.x) / terrData.size.x) * terrData.alphamapWidth;
+        returnVector.z = ((worldCoor.y - terrainPos.z) / terrData.size.z) * terrData.alphamapHeight;
 
         return returnVector;
     }
 
     // Use this for initialization
     void Start () {
-        terrainToDeform = Terrain.activeTerrain;
-        terrainData = terrainToDeform.terrainData;
-        terrWidth = terrainData.heightmapWidth;
-        terrHeight = terrainData.heightmapHeight;
+        
     }
 	
 	// Update is called once per frame

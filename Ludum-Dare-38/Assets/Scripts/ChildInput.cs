@@ -8,9 +8,9 @@ public class ChildInput : MonoBehaviour {
     [Range(0, 1)]
     public float force = 0.1f;
     [SerializeField]
-    private int forceRadius = 10;
+    private int brushRadius = 10;
     [SerializeField]
-    private bool isAlteringTerrain = false;
+    private bool isAlteringTerrain = true;
     [SerializeField]
     private bool isAlteringLiquids = false;
     [SerializeField]
@@ -30,20 +30,23 @@ public class ChildInput : MonoBehaviour {
 
     private void alterLiquids(int buttonPressed, Ray inputRay)
     {
-        if(buttonPressed == 1)
-        {
-            //Set flag to dry water
-        }
+        bool isItWater;
         RaycastHit hit;
 
         if(Physics.Raycast(inputRay, out hit))
         {
             LiquidDeform deformer = hit.collider.GetComponent<LiquidDeform>();
-            if(deformer)
+            if(deformer && buttonPressed != 1)
             {
                 Vector3 point = hit.point;
-                point += hit.normal * forceRadius;
-                deformer.deformLiquids(point, force, forceRadius);
+                point += hit.normal * brushRadius;
+                deformer.deformLiquids(point, force, brushRadius);
+            }
+
+            isItWater = hit.collider.gameObject.layer == 4;
+            if(isItWater && buttonPressed == 1)
+            {
+                Destroy(hit.collider.gameObject);
             }
         }
     }
@@ -63,8 +66,8 @@ public class ChildInput : MonoBehaviour {
             if (deformer)
             {
                 Vector3 point = hit.point;
-                point += hit.normal * forceRadius;
-                deformer.deformTerrain(point, force, forceRadius);
+                point = deformer.getHeightMapPosition(point);
+                deformer.deformTerrain(point, force, brushRadius);
             }
         }
 
@@ -83,7 +86,7 @@ public class ChildInput : MonoBehaviour {
         {
             alterTerrain(buttonPressed, inputRay);
         }
-        else if(isAlteringTerrain)
+        else if(isAlteringLiquids)
         {
             alterLiquids(buttonPressed, inputRay);
         }
@@ -104,8 +107,8 @@ public class ChildInput : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
