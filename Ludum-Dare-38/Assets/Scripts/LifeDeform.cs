@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiquidDeform : Deform
+public class LifeDeform : Deform
 {
     [SerializeField]
-    private Texture waterTexture;
+    private GameObject lifePrefab;
+    [SerializeField]
+    private Material[] lifeTypes;
 
-    private const int DESERT = 0;
-    private const int WATER = 1;
-
-    public void deformLiquids(Vector3 point, int brushRadius, bool rightClick)
+    public void deformLife(Vector3 point, int brushRadius, bool rightClick)
     {
+        //Transform into grass and instantiate trees, or revert into
         int heightX;
         int heightZ;
         Vector2 calc;
@@ -53,4 +53,5 @@ public class LiquidDeform : Deform
     {
         getTerrainData();
     }
+
 }

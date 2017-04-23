@@ -20,7 +20,23 @@ public class ChildInput : MonoBehaviour {
 
     private void alterLife(int buttonPressed, Ray inputRay)
     {
-        throw new NotImplementedException();
+        bool rightClick = false;
+        if(buttonPressed == 1)
+        {
+            rightClick = true;
+        }
+        RaycastHit hit;
+
+        if(Physics.Raycast(inputRay, out hit))
+        {
+            LifeDeform deformer = hit.collider.GetComponent<LifeDeform>();
+            if(deformer)
+            {
+                Vector3 point = hit.point;
+                point = deformer.getHeightMapPosition(point);
+                deformer.deformLife(point, brushRadius, rightClick);
+            }
+        }
     }
 
     private void alterTemperature(int buttonPressed, Ray inputRay)
@@ -44,7 +60,7 @@ public class ChildInput : MonoBehaviour {
             {
                 Vector3 point = hit.point;
                 point = deformer.getHeightMapPosition(point);
-                deformer.deformLiquids(point, force, brushRadius, rightClick);
+                deformer.deformLiquids(point, brushRadius, rightClick);
             }
         }
     }
