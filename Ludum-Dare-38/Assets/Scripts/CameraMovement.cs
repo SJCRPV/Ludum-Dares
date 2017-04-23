@@ -81,6 +81,6 @@ public class CameraMovement : MonoBehaviour {
 	void Update () {
         zoom();
         //moveCamera();
-        rotateCamera();
+        //rotateCamera();
 	}
 }

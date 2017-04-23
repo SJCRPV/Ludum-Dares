@@ -30,23 +30,21 @@ public class ChildInput : MonoBehaviour {
 
     private void alterLiquids(int buttonPressed, Ray inputRay)
     {
-        bool isItWater;
+        bool rightClick = false;
+        if(buttonPressed == 1)
+        {
+            rightClick = true;
+        }
         RaycastHit hit;
 
         if(Physics.Raycast(inputRay, out hit))
         {
             LiquidDeform deformer = hit.collider.GetComponent<LiquidDeform>();
-            if(deformer && buttonPressed != 1)
+            if(deformer)
             {
                 Vector3 point = hit.point;
-                point += hit.normal * brushRadius;
-                deformer.deformLiquids(point, force, brushRadius);
-            }
-
-            isItWater = hit.collider.gameObject.layer == 4;
-            if(isItWater && buttonPressed == 1)
-            {
-                Destroy(hit.collider.gameObject);
+                point = deformer.getHeightMapPosition(point);
+                deformer.deformLiquids(point, force, brushRadius, rightClick);
             }
         }
     }
@@ -79,7 +77,6 @@ public class ChildInput : MonoBehaviour {
 
     private void handleInput(int buttonPressed)
     {
-
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (isAlteringTerrain)
@@ -102,25 +99,61 @@ public class ChildInput : MonoBehaviour {
         {
             Debug.LogError("No alteration mode is selected");
         }
-        
     }
 
-    // Use this for initialization
-    void Start () {
-
+    private void checkKeyboardInput()
+    {
+        //Q - Terrain deformation
+        //W - Liquid deformation
+        //E - Temperature deformation
+        //R - Life deformation
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            isAlteringTerrain = true;
+            isAlteringLiquids = false;
+            isAlteringTemperature = false;
+            isAlteringLife = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            isAlteringTerrain = false;
+            isAlteringLiquids = true;
+            isAlteringTemperature = false;
+            isAlteringLife = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            isAlteringTerrain = false;
+            isAlteringLiquids = false;
+            isAlteringTemperature = true;
+            isAlteringLife = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            isAlteringTerrain = false;
+            isAlteringLiquids = false;
+            isAlteringTemperature = false;
+            isAlteringLife = true;
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void checkMouseInput()
+    {
         //MouseButton(0) - Left Mouse
         //MouseButton(1) - Right Mouse
         if (Input.GetMouseButton(0))
         {
             handleInput(0);
         }
-        else if(Input.GetMouseButton(1))
+        else if (Input.GetMouseButton(1))
         {
             handleInput(1);
         }
+    }
+	
+	// Update is called once per frame
+	void Update () {
+        checkKeyboardInput();
+        checkMouseInput();
     }
 }
