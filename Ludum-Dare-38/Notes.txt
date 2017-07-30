@@ -1,0 +1,31 @@
+A Small World
+	- Mini planet, environment creation, world evolution. MAKE THE MOUNTAIN!
+	
+	
+God powers:
+	Raise, lower ground
+	Give water, dry until erosion
+	Breathe cold, heat it up to fire
+	Create life and forestry, make land barren.
+	
+Conditions for life:
+	Template life:
+		- (Resource, Resource, Area to live in, Temperature)
+
+	Regular life:
+		- Water, Forest, Plains, Mild
+		
+	Cold creatures:
+		- Water, Ice, Snow, Frigid
+		
+	Underwater creatures:
+		- Water, Coral, Deep sea, Warm
+		
+	Desert creatures:
+		- Rock, Sand, Desert, Hot
+		
+	Mountain creatures:
+		- Rock, Snow, Mountains, Cold
+		
+	Molten creatures:
+		- Rock, Lava, Volcanoes, Melting
