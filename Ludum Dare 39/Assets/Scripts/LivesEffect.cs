@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class LivesEffect : Effect {
 
-    private static int livesValue;
+    private static int livesRemaining = 100000;
+    private static int livesLost = 0;
     private int min;
     private int max;
-    private int random;
+    //private int random;
+
+    public static int staticGetLivesRemaining()
+    {
+        return livesRemaining;
+    }
+    public static int staticGetLivesLost()
+    {
+        return livesLost;
+    }
 
     public int getRandomNum()
     {
@@ -33,17 +43,26 @@ public class LivesEffect : Effect {
 
     public override int getVarValue()
     {
-        return livesValue;
+        return livesRemaining;
     }
 
     public override void changeVarValue(int difference)
     {
-        livesValue += difference;
+        livesRemaining -= difference;
+        livesLost += difference;
     }
 
     public LivesEffect(int nMin, int nMax)
     {
         min = nMin;
         max = nMax;
+    }
+
+    public static new string ToString
+    {
+        get
+        {
+            return "LivesEffect";
+        }
     }
 }

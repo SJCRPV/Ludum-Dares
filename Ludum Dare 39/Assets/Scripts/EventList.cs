@@ -19,7 +19,7 @@ public class EventList : MonoBehaviour {
     public void addEvent(Event nEvent)
     {
         eventListArr.Add(nEvent);
-        Debug.Log("Added!");
+        Debug.Log("Added! " + nEvent.getTitle());
     }
 
 	// Use this for initialization

@@ -9,11 +9,14 @@ public class EventOption {
     private int[] valueChanges;
     private int jumpsToEventNum;
 
+    public int getJumpsToEventNum()
+    {
+        return jumpsToEventNum;
+    }
     public string getOptionText()
     {
         return optionText;
     }
-
     public Effect[] getOptionEffects()
     {
         return optionEffects;

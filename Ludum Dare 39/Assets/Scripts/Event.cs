@@ -9,7 +9,12 @@ public class Event {
     private EventOption[] eventOptions;
     private Effect[] optionEffects;
     private int[] valueChanges;
+    private bool isResponseEvent;
 
+    public bool getIsResponseEvent()
+    {
+        return isResponseEvent;
+    }
     public string getTitle()
     {
         return title;
@@ -17,6 +22,16 @@ public class Event {
     public string getEvDescription()
     {
         return eventDescription;
+    }
+    public string getEvOptionsString()
+    {
+        string retString = "";
+        for(int i = 0; i < eventOptions.Length; i++)
+        {
+            retString += eventOptions[i].getOptionText() + "\n";
+        }
+
+        return retString;
     }
     public EventOption[] getEvOptions()
     {
@@ -33,10 +48,11 @@ public class Event {
         }
     }
 
-    public Event(string evTitle, string evDes, EventOption[] evOps)
+    public Event(string evTitle, string evDes, EventOption[] evOps, bool nIsResponseEvent)
     {
         title = evTitle;
         eventDescription = evDes;
         eventOptions = evOps;
+        isResponseEvent = nIsResponseEvent;
     }
 }

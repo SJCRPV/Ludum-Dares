@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class EventHandler : MonoBehaviour {
 
-    [SerializeField]
     private EventList eventList;
     private int listSize;
 
+    public Event grabEvent(int index)
+    {
+        if(index != -1)
+        {
+            return eventList.getEvent(index);
+        }
+        Debug.LogError("I was given a -1. Error.");
+        return null;
+    }
+
     public Event grabEvent()
     {
-        return eventList.getEvent(Random.Range(1, listSize - 1));
+        //return eventList.getEvent(Random.Range(1, listSize - 1));
+        return eventList.getEvent(1);
     }
 
     void Start()
     {
+        eventList = gameObject.GetComponent<EventList>();
         listSize = EventList.getListSize();
     }
 	

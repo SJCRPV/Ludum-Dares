@@ -5,7 +5,13 @@ using UnityEngine;
 
 public class MoraleEffect : Effect
 {
-    private static int moraleValue;
+    //Swings between 0-10
+    private static int moraleValue = 5;
+
+    public static int staticGetMoraleValue()
+    {
+        return moraleValue;
+    }
 
     public override void changeVarValue(int difference)
     {
@@ -15,5 +21,13 @@ public class MoraleEffect : Effect
     public override int getVarValue()
     {
         return moraleValue;
+    }
+
+    public static new string ToString
+    {
+        get
+        {
+            return "MoraleEffect";
+        }
     }
 }
