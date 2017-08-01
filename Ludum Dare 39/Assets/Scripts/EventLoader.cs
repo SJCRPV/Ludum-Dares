@@ -243,8 +243,8 @@ public class EventLoader : MonoBehaviour {
         eventList.addEvent(nEvent);
 
         //Final Speech
-        evOpEff = new Effect[] { new LivesEffect(100000, 100000), new MoraleEffect(), new PowerEffect() };
-        evOpNumChange = new int[] { ((LivesEffect)evOpEff[0]).getRandomNum(), -10, -1000 };
+        evOpEff = new Effect[] { new LivesEffect(0, 0), new MoraleEffect(), new PowerEffect() };
+        evOpNumChange = new int[] { ((LivesEffect)evOpEff[0]).getRandomNum(), 10, 1000 };
         evOp1 = new EventOption("1. I'm... afraid so, William. It... it was an honor to serve with everyone on this ship. I'm ready to give my final speech...", evOpEff, evOpNumChange, -3);
 
         evOpEff = new Effect[] { new PowerEffect() };
