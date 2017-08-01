@@ -85,12 +85,15 @@
     <Compile Include="Assets\Scripts\EventLoader.cs" />
     <Compile Include="Assets\Scripts\EventOption.cs" />
     <Compile Include="Assets\Scripts\FinalSpeech.cs" />
+    <Compile Include="Assets\Scripts\GameOver.cs" />
     <Compile Include="Assets\Scripts\HUD.cs" />
     <Compile Include="Assets\Scripts\LivesEffect.cs" />
     <Compile Include="Assets\Scripts\MainLoop.cs" />
     <Compile Include="Assets\Scripts\MoraleEffect.cs" />
     <Compile Include="Assets\Scripts\PowerEffect.cs" />
     <Compile Include="Assets\Scripts\TextScroll.cs" />
+    <Compile Include="Assets\Scripts\Warp.cs" />
+    <Compile Include="Assets\Scripts\WarpEffect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

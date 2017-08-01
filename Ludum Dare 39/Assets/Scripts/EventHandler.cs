@@ -7,6 +7,14 @@ public class EventHandler : MonoBehaviour {
     private EventList eventList;
     private int listSize;
 
+    public int ListSize
+    {
+        get
+        {
+            return listSize;
+        }
+    }
+
     public Event grabEvent(int index)
     {
         if(index != -1)
@@ -19,8 +27,13 @@ public class EventHandler : MonoBehaviour {
 
     public Event grabEvent()
     {
-        //return eventList.getEvent(Random.Range(1, listSize - 1));
-        return eventList.getEvent(1);
+        Event returnEvent;
+        do
+        {
+            returnEvent = eventList.getEvent(Random.Range(1, listSize - 1));
+        } while (returnEvent.getIsResponseEvent());
+
+        return returnEvent;
     }
 
     void Start()

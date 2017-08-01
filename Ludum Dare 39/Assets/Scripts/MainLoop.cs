@@ -12,7 +12,14 @@ public class MainLoop : MonoBehaviour {
     private Text eventTitle;
     private Text eventDescription;
     private Text eventOptions;
+    private GameObject winText;
     private TextScroll textScrollScript;
+    private FinalSpeech finalSpeechScript;
+    private GameObject fSpeechUI;
+    private Warp warpScript;
+    private GameOver gameOverScript;
+    [SerializeField]
+    private int costPerJump;
     [SerializeField]
     private int powerGain = 5;
     [SerializeField]
@@ -36,8 +43,9 @@ public class MainLoop : MonoBehaviour {
         hudScript.updatePower();
     }
 
-    private void displayEvent(Event nEvent)
+    public void displayEvent(Event nEvent)
     {
+        hudScript.setHUDVis(false);
         eventIsOpen = true;
         eventObject.SetActive(true);
         eventTitle.text = nEvent.getTitle();
@@ -47,7 +55,6 @@ public class MainLoop : MonoBehaviour {
 
     private void fireEvent()
     {
-        hudScript.flipHUDVis();
         if(!shownFirstEvent)
         {
             currentEvent = eventHandler.grabEvent(0);
@@ -62,24 +69,61 @@ public class MainLoop : MonoBehaviour {
         displayEvent(currentEvent);
     }
 
+    private void resetTimers()
+    {
+        secBetweenEvents = secBetweenEventsStore;
+        secBetweenRGain = secBetweenRGainStore;
+    }
+
+    IEnumerator delayedFireEvent()
+    {
+        Debug.Log("Hai" + warpScript.getFullAnimsLength());
+        yield return new WaitForSeconds(warpScript.getFullAnimsLength());
+        fireEvent();
+        StopCoroutine("delayedFireEvent");
+    }
+
     private void updateValuesInHUD(Effect[] effects)
     {
-        for(int i = 0; i < effects.Length; i++)
+        for (int i = 0; i < effects.Length; i++)
         {
-            if(effects[i].ToString().Equals(PowerEffect.ToString))
+            if (effects[i].ToString().Equals(PowerEffect.ToString))
             {
                 hudScript.updatePower();
             }
-            else if(effects[i].ToString().Equals(LivesEffect.ToString))
+            else if (effects[i].ToString().Equals(LivesEffect.ToString))
             {
                 hudScript.updateLivesLeft();
                 hudScript.updateLivesLost();
             }
-            else if(effects[i].ToString().Equals(MoraleEffect.ToString))
+            else if (effects[i].ToString().Equals(MoraleEffect.ToString))
             {
                 hudScript.updateMoraleText();
             }
+            else if (effects[i].ToString().Equals(WarpEffect.ToString))
+            {
+                hudScript.updateJumpsMade();
+                hudScript.updateJumpsLeft();
+            }
         }
+    }
+
+    public void playWarpAnims()
+    {
+        StartCoroutine("delayedFireEvent");
+        PowerEffect.staticChangeVarValue(costPerJump);
+        WarpEffect.changeValuesByOne();
+        updateValuesInHUD(new Effect[] { new PowerEffect(), new WarpEffect() });
+        warpScript.playWarp();
+        resetTimers();
+    }
+
+    public void fSpeechButtonPressed()
+    {
+        currentEvent = eventHandler.grabEvent(eventHandler.ListSize - 1);
+        eventOptionsLength = currentEvent.getEvOptions().Length;
+        Debug.Log("Final Speech!");
+        displayEvent(currentEvent);
     }
 
     private void checkForInput()
@@ -114,13 +158,15 @@ public class MainLoop : MonoBehaviour {
 
         if(nextEventNum == -3)
         {
-            isDoingFinalSpeech = true;
+            finalSpeechScript.confirmFinalEvent();
+            fSpeechUI.SetActive(true);
+            return;
         }
 
         if(nextEventNum == -2)
         {
             eventIsOpen = false;
-            hudScript.flipHUDVis();
+            hudScript.setHUDVis(true);
             eventObject.SetActive(false);
             return;
         }
@@ -140,11 +186,22 @@ public class MainLoop : MonoBehaviour {
         eventDescription = GameObject.Find("Description").GetComponent<Text>();
         eventOptions = GameObject.Find("Options").GetComponent<Text>();
         textScrollScript = GameObject.Find("ResourceGain").GetComponent<TextScroll>();
+        finalSpeechScript = GameObject.Find("Player Colony Ship").GetComponent<FinalSpeech>();
+        fSpeechUI = GameObject.Find("FinalSpeechUI");
+        winText = GameObject.Find("WinText");
+        winText.SetActive(false);
+        gameOverScript = gameObject.GetComponent<GameOver>();
+        warpScript = gameObject.GetComponent<Warp>();
         hudScript = gameObject.GetComponent<HUD>();
+
         startTime = Time.time;
         secBetweenEventsStore = secBetweenEvents;
         secBetweenRGainStore = secBetweenRGain;
+        costPerJump *= -1;
+
+        fSpeechUI.SetActive(false);
         eventObject.SetActive(false);
+
         eventIsOpen = false;
         isDoingFinalSpeech = false;
         shownFirstEvent = false;
@@ -153,31 +210,44 @@ public class MainLoop : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        if (eventIsOpen)
+        if(PowerEffect.staticGetVarValue() <= 0 || MoraleEffect.staticGetMoraleValue() <= 0 || LivesEffect.staticGetLivesRemaining() <= 0)
         {
-            checkForInput();
+            gameOverScript.showGameOver();
         }
-        else
+
+        if(WarpEffect.JumpsLeft <= 0)
         {
-            totalTime += Time.deltaTime;
-            secBetweenEvents -= Time.deltaTime;
-            secBetweenRGain -= Time.deltaTime;
+            winText.SetActive(true);
+        }
 
-            if(!shownFirstEvent)
+        if (!finalSpeechScript.isFinalEventConfirmed())
+        {
+            if (eventIsOpen)
             {
-                fireEvent();
+                checkForInput();
             }
-
-            if (secBetweenEvents < 0)
+            else
             {
-                fireEvent();
-                secBetweenEvents = secBetweenEventsStore;
-            }
+                totalTime += Time.deltaTime;
+                secBetweenEvents -= Time.deltaTime;
+                secBetweenRGain -= Time.deltaTime;
 
-            if(secBetweenRGain < 0)
-            {
-                addPower();
-                secBetweenRGain = secBetweenRGainStore;
+                if (!shownFirstEvent)
+                {
+                    fireEvent();
+                }
+
+                if (secBetweenEvents < 0)
+                {
+                    fireEvent();
+                    secBetweenEvents = secBetweenEventsStore;
+                }
+
+                if (secBetweenRGain < 0)
+                {
+                    addPower();
+                    secBetweenRGain = secBetweenRGainStore;
+                }
             }
         }
 	}
