@@ -12,7 +12,7 @@ What this incomplete entry intended to make was a strategy game where the player
 This incomplete entry intended to mix the game Divekick and the game Brawlhalla into something different. Divekick came with the movement. The player would be able simply jump and attack.
 Brawlhalla came with the power system (which in turn takes from the game series Super Smash Brothers), even if somewhat inverted. The idea was that the more hits the player got, the harder he'd hit his foes. There was a complete combo system planned out and everything. All with just two buttons.
 
-## **Ludum Dare 35**
+## [**Ludum Dare 35**](http://ludumdare.com/compo/ludum-dare-35/?action=preview&uid=44036)
 > Theme: Shapeshift
 
 This entry, the very first one I completed, was intended to be a game in isometric view where the player's objective was to walk through a city looking to assassinate someone, but that someone knows what the player looks like. As such, the player had a need to snatch people and killing them to take their form. However, when the bodies were found, the target received an update on how the player looked, forcing him/her to keep changing. The player would not be capable of taking out the target if it knew how they looked.
@@ -30,7 +30,7 @@ In this entry, I intended to create a god-game. A whole world that the player co
 Thematically, at least. Since the theme was “Small World”, the idea I eventually ended up going with was that the playing area was a literal sandbox. The player would be seeing things through the eyes and imagination of a child. Things would start with just a bunch of sand and, as the player messed with the environment, they would begin to look like an actual environment, with grass, mountains, trees, water, volcanoes… etc.
 As various conditions were met, certain areas would start to have creatures appearing. Life. Be it things like molten, salamander-like creatures if volcanoes, rocks, lava and scorching temperatures were around; or furry, yeti-like creatures if there was water, ice, snow and frigid temperatures; or even just your usual life, if water, plains, trees and mild temperature existed in an area. Unfortunately, I spent too much time learning how to make the world deformation mechanics to get all that far in this vision.
 
-## **Ludum Dare 39**
+## [**Ludum Dare 39**](https://ldjam.com/events/ludum-dare/39/a-colonys-abyss)
 > Theme: Running Out Of Power
 
 This entry resulted in an actual submission in the Jam version (72 hours instead of 48)
