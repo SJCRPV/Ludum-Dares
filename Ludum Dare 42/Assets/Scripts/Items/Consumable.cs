@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Consumable : Item {
     
-    public Consumable(int nHealthRegen, bool nIsConsumable, string nItemType, string nItemElement) : base(nHealthRegen, nIsConsumable, nItemType, nItemElement)
+    public Consumable(int nBuffImpact, bool nIsConsumable, string nItemType, string nItemElement) : base(nBuffImpact, nIsConsumable, nItemType, nItemElement)
     { }
 }

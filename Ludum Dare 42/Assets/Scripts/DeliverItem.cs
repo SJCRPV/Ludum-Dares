@@ -9,9 +9,10 @@ public class DeliverItem : MonoBehaviour {
     private void sendItemAway(Item item)
     {
         heroScript.receiveItem(item);
+        Destroy(item);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if(!Input.GetMouseButton(0))
         {

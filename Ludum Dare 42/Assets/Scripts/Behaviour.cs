@@ -5,6 +5,7 @@ using UnityEngine;
 public class Behaviour : MonoBehaviour {
 
     Hero heroScript;
+    UI UIScript;
 
     //Behaviour variables
     [SerializeField]
@@ -89,6 +90,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 5;
         weaponSwapRate = 0.1f;
         armourSwapRate = 0;
+        UIScript.changeCurrentEvent("The Hero is currently fighting mobs.");
     }
 
     private void setBossFight()
@@ -102,6 +104,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 25;
         weaponSwapRate = 0.4f;
         armourSwapRate = 0;
+        UIScript.changeCurrentEvent("The Hero is currently fighting a boss. Pay attention.");
     }
 
     private void setResting()
@@ -116,6 +119,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 0;
         weaponSwapRate = 0;
         armourSwapRate = 0;
+        UIScript.changeCurrentEvent("The Hero is sleeping. Relax.");
     }
 
     private void setLooting()
@@ -130,6 +134,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 0;
         weaponSwapRate = 0;
         armourSwapRate = 0;
+        UIScript.changeCurrentEvent("The Hero is looting dead bodies. Flood incoming.");
     }
 
     private void setElementals()
@@ -143,6 +148,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 25;
         weaponSwapRate = 0.4f;
         armourSwapRate = 0;
+        UIScript.changeCurrentEvent("The Hero is duking out against special mobs. Adjust accordingly.");
     }
 
     private void setAmbushed()
@@ -157,6 +163,7 @@ public class Behaviour : MonoBehaviour {
         healthDecreaseStep = 10;
         weaponSwapRate = 0.5f;
         armourSwapRate = 0.5f;
+        UIScript.changeCurrentEvent("The Hero is being ambushed! Don't panic!");
     }
 
     public void changeBehaviour(int newBehaviour)
@@ -196,6 +203,7 @@ public class Behaviour : MonoBehaviour {
     // Use this for initialization
     void Start () {
         heroScript = GetComponent<Hero>();
+        UIScript = GameObject.Find("Canvas").GetComponent<UI>();
 	}
 	
 	// Update is called once per frame

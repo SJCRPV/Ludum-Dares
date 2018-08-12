@@ -8,7 +8,7 @@ public class Item : World
     public int Attack { get; private set; }
     public int Defence { get; private set; }
     public float Dps { get; private set; }
-    public int HealthRegen { get; private set; }
+    public int BuffImpact { get; private set; }
     public bool IsConsumable { get; private set; }
     public bool IsRanged { get; private set; }
     public string ItemSlot { get; private set; }
@@ -34,10 +34,10 @@ public class Item : World
         ItemElement = getNameNumber(typeof(Elements), nItemElement);
     }
 
-    public Item(int nHealthRegen, bool nIsConsumable, string nItemType, string nItemElement)
+    public Item(int nBuffImpact, bool nIsConsumable, string nItemType, string nItemElement)
     {
         //Consumables
-        HealthRegen = nHealthRegen;
+        BuffImpact = nBuffImpact;
         IsConsumable = nIsConsumable;
         ItemType = getNameNumber(typeof(ItemTypes), nItemType);
         ItemElement = getNameNumber(typeof(Elements), nItemElement);

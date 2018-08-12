@@ -31,10 +31,64 @@ public class Hero : World {
     [SerializeField]
     private int autoPotHP;
     [SerializeField]
+    private float timeBetweenPotCheck;
+    private float timeBetweenPotCheckStore;
+    [SerializeField]
     private int currBehaviour;
+    private UI UIScript;
+    private Inventory inventoryScript;
+
+    private float itemEffectivness(int itemElement)
+    {
+        int enemyElement = EnemyManager.CurrentGroup[0].Element;
+        if(itemElement == enemyElement)
+        {
+            return 1.5f;
+        }
+        else if(itemElement == getOppositeElement(enemyElement))
+        {
+            return 0.5f;
+        }
+        else
+        {
+            return 1f;
+        }
+    }
+
+    private float totalArmourDefence()
+    {
+        float helmet = armour.helmet.Defence * itemEffectivness(armour.helmet.ItemElement);
+        float chestPlate = armour.chestPlate.Defence * itemEffectivness(armour.chestPlate.ItemElement);
+        float greaves = armour.greaves.Defence * itemEffectivness(armour.greaves.ItemElement);
+        float shoes = armour.shoes.Defence * itemEffectivness(armour.shoes.ItemElement);
+
+        return helmet + chestPlate + greaves + shoes;
+    }
+
+    public void hurtHero()
+    {
+        float result = (behaviour.getHealthDecreaseStep() - totalArmourDefence()) / itemEffectivness(buff.ItemElement);
+
+        health -= Mathf.RoundToInt(result);
+    }
+
+    public void healHero(int amount)
+    {
+        health += amount;
+    }
 
     private void useConsumable(Item item)
     {
+        if(item.ItemElement == (int)Elements.Normal)
+        {
+            healHero(item.BuffImpact);
+            return;
+        }
+        
+        int oppositeElement = getOppositeElement(item.ItemElement);
+
+        buff = item;
+        UIScript.changeBuffs(item.ItemElement, oppositeElement, item.BuffImpact);
 
     }
 
@@ -103,23 +157,79 @@ public class Hero : World {
         processTheItem(item);
     }
 
-    public void hurtHero()
-    {
-        health -= behaviour.getHealthDecreaseStep();
-    }
-
     public void changeBehaviour(int newBehaviour)
     {
         behaviour.changeBehaviour(newBehaviour);
     }
 
+    private void checkForArmourSwapNeed()
+    {
+        if (behaviour.helmetNeedsSwap)
+        {
+            Inventory.swapQueue.Add(armour.helmet);
+        }
+        if (behaviour.chestNeedsSwap)
+        {
+            Inventory.swapQueue.Add(armour.chestPlate);
+        }
+        if (behaviour.greavesNeedsSwap)
+        {
+            Inventory.swapQueue.Add(armour.greaves);
+        }
+        if (behaviour.shoesNeedsSwap)
+        {
+            Inventory.swapQueue.Add(armour.shoes);
+        }
+    }
+
+    private void checkForWeaponSwapNeed()
+    {
+        if(behaviour.primaryNeedsSwap)
+        {
+            Inventory.swapQueue.Add(weapons.primaryWeapon);
+        }
+
+        if(behaviour.secondaryNeedsSwap)
+        {
+            Inventory.swapQueue.Add(weapons.secondaryWeapon);
+        }
+    }
+
+    private void checkForPotionNeed()
+    {
+        if (health < autoPotHP)
+        {
+            Item potion = null;
+            timeBetweenPotCheck -= Time.deltaTime;
+            if (timeBetweenPotCheck < 0)
+            {
+                potion = inventoryScript.fetchNearestPotion();
+                if (potion == null)
+                {
+                    timeBetweenPotCheck = timeBetweenPotCheckStore;
+                }
+                else
+                {
+                    processTheItem(potion);
+                    timeBetweenPotCheck = -1;
+                }
+            }
+        }
+    }
+
 	// Use this for initialization
 	void Start () {
+        UIScript = GameObject.Find("Canvas").GetComponent<UI>();
+        inventoryScript = GameObject.Find("Inventory").GetComponent<Inventory>();
+        timeBetweenPotCheckStore = timeBetweenPotCheck;
+        timeBetweenPotCheck = -1;
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        checkForPotionNeed();
+        checkForWeaponSwapNeed();
+        checkForArmourSwapNeed();
 	}
 }

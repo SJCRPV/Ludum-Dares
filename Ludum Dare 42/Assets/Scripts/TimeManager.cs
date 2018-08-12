@@ -19,10 +19,10 @@ public class TimeManager : MonoBehaviour {
     private float timeBetweenPhases;
     private float timeBetweenPhasesStore;
     [SerializeField]
-    private float healthDropTick;
-    private float healthDropTickStore;
+    private float timeBeforeHealthDrop;
+    private float timeBeforeHealthDropStore;
     [SerializeField]
-    private float equipmentCheckTick;
+    private float timeBeforeEquipmentCheck;
     private float equipmentCheckTickStore;
     private int currentPhase;
     
@@ -36,7 +36,7 @@ public class TimeManager : MonoBehaviour {
         switch(currentPhase)
         {
             case (int)Phases.Resting:
-                currentPhase = Random.Range((int)Phases.Normal, (int)Phases.Ambushed);
+                currentPhase = Random.Range((int)Phases.Normal, (int)Phases.Ambushed);           
                 break;
 
             case (int)Phases.Normal:
@@ -63,7 +63,9 @@ public class TimeManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        hero = GameObject.Find("Hero").GetComponent<Hero>();
         timeBetweenPhasesStore = timeBetweenPhases;
+        timeBeforeHealthDropStore = timeBeforeHealthDrop;
 	}
 	
     private void hurtHero()
@@ -74,18 +76,18 @@ public class TimeManager : MonoBehaviour {
     private void updateTime()
     {
         timeBetweenPhases -= Time.deltaTime;
-        healthDropTick -= Time.deltaTime;
-        equipmentCheckTick -= Time.deltaTime;
+        timeBeforeHealthDrop -= Time.deltaTime;
+        timeBeforeEquipmentCheck -= Time.deltaTime;
     }
 
 	// Update is called once per frame
 	void Update () {
         updateTime();
 
-        if (healthDropTick <= 0)
+        if (timeBeforeHealthDrop <= 0)
         {
             hurtHero();
-            healthDropTick = healthDropTickStore;
+            timeBeforeHealthDrop = timeBeforeHealthDropStore;
         }
 
         if(timeBetweenPhases < 0)
