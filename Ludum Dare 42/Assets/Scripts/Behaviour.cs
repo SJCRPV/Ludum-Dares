@@ -45,17 +45,17 @@ public class Behaviour : MonoBehaviour {
     private void checkArmour()
     {
         int element = EnemyManager.CurrentGroup[0].Element;
-        helmetNeedsSwap = heroScript.armour.helmet.ItemElement != element;
-        chestNeedsSwap = heroScript.armour.chestPlate.ItemElement != element;
-        greavesNeedsSwap = heroScript.armour.greaves.ItemElement != element;
-        shoesNeedsSwap = heroScript.armour.shoes.ItemElement != element;
+        helmetNeedsSwap = heroScript.armour.helmet.GetComponent<Armour>().ItemElement != element;
+        chestNeedsSwap = heroScript.armour.chestPlate.GetComponent<Armour>().ItemElement != element;
+        greavesNeedsSwap = heroScript.armour.greaves.GetComponent<Armour>().ItemElement != element;
+        shoesNeedsSwap = heroScript.armour.shoes.GetComponent<Armour>().ItemElement != element;
     }
 
     private void checkWeapons()
     {
         int element = EnemyManager.CurrentGroup[0].Element;
-        primaryNeedsSwap = heroScript.weapons.primaryWeapon.ItemElement != element;
-        secondaryNeedsSwap = heroScript.weapons.secondaryWeapon.ItemElement != element;
+        primaryNeedsSwap = heroScript.weapons.primaryWeapon.GetComponent<Weapon>().ItemElement != element;
+        secondaryNeedsSwap = heroScript.weapons.secondaryWeapon.GetComponent<Weapon>().ItemElement != element;
     }
 
     private void checkEquipment()

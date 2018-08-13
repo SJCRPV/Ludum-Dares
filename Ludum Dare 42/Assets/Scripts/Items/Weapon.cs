@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class Weapon : Item {
 
-    public Weapon(int nAttack, int nDps, bool nIsRanged, string nItemType, string nItemElement) : base(nAttack, nDps, nIsRanged, nItemType, nItemElement)
-    { }
+    [SerializeField]
+    private int attack;
+    [SerializeField]
+    private int dps;
+    [SerializeField]
+    private bool isRanged;
+    [SerializeField]
+    private string itemType;
+    [SerializeField]
+    private string itemElement;
+
+    public void Start()
+    {
+        createWeapon(attack, dps, isRanged, itemType, itemElement);
+    }
 }

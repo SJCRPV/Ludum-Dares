@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Inventory : World {
 
-    public static List<Item> inventory;
-    public static List<Item> swapQueue;
+    public static List<GameObject> inventory;
+    public static List<GameObject> swapQueue;
 
     [SerializeField]
     private float timeBetweenQueueItems;
@@ -31,11 +31,12 @@ public class Inventory : World {
         StopCoroutine("dealWithQueue");
     }
 
-    public Item fetchNearestPotion()
+    public GameObject fetchNearestPotion()
     {
         for(int i = 0; i < inventory.Count; i++)
         {
-            if (inventory[i].IsConsumable && inventory[i].ItemElement == (int)Elements.Normal)
+            Consumable potentialPotion = inventory[i].GetComponent<Consumable>();
+            if (potentialPotion.IsConsumable && potentialPotion.ItemElement == (int)Elements.Normal)
             {
                 return inventory[i];
             }
@@ -45,8 +46,8 @@ public class Inventory : World {
 
 	// Use this for initialization
 	void Start () {
-        inventory = new List<Item>();
-        swapQueue = new List<Item>();
+        inventory = new List<GameObject>();
+        swapQueue = new List<GameObject>();
         timeBetweenQueueItemsStore = timeBetweenQueueItems;
         queueIsBeingProcessed = false;
 	}

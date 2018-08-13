@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : World {
+public class Hero : MonoBehaviour {
 
     //Equiped Items
-    public struct Weapons
+    public struct EquippedWeapons
     {
-        public Item primaryWeapon;
-        public Item secondaryWeapon;
+        public GameObject primaryWeapon;
+        public GameObject secondaryWeapon;
     }
 
-    public struct Armour
+    public struct EquippedArmour
     {
-        public Item helmet;
-        public Item chestPlate;
-        public Item greaves;
-        public Item shoes;
+        public GameObject helmet;
+        public GameObject chestPlate;
+        public GameObject greaves;
+        public GameObject shoes;
     }
 
-    public Weapons weapons;
-    public Armour armour;
-    public Item buff;
+    public EquippedWeapons weapons;
+    public EquippedArmour armour;
+    public GameObject buff;
     Behaviour behaviour;
 
     [SerializeField]
@@ -37,6 +37,7 @@ public class Hero : World {
     private int currBehaviour;
     private UI UIScript;
     private Inventory inventoryScript;
+    private World worldScript;
 
     private float itemEffectivness(int itemElement)
     {
@@ -45,7 +46,7 @@ public class Hero : World {
         {
             return 1.5f;
         }
-        else if(itemElement == getOppositeElement(enemyElement))
+        else if(itemElement == worldScript.getOppositeElement(enemyElement))
         {
             return 0.5f;
         }
@@ -57,17 +58,17 @@ public class Hero : World {
 
     private float totalArmourDefence()
     {
-        float helmet = armour.helmet.Defence * itemEffectivness(armour.helmet.ItemElement);
-        float chestPlate = armour.chestPlate.Defence * itemEffectivness(armour.chestPlate.ItemElement);
-        float greaves = armour.greaves.Defence * itemEffectivness(armour.greaves.ItemElement);
-        float shoes = armour.shoes.Defence * itemEffectivness(armour.shoes.ItemElement);
+        float helmet = armour.helmet.GetComponent<Armour>().Defence * itemEffectivness(armour.helmet.GetComponent<Armour>().ItemElement);
+        float chestPlate = armour.chestPlate.GetComponent<Armour>().Defence * itemEffectivness(armour.chestPlate.GetComponent<Armour>().ItemElement);
+        float greaves = armour.greaves.GetComponent<Armour>().Defence * itemEffectivness(armour.greaves.GetComponent<Armour>().ItemElement);
+        float shoes = armour.shoes.GetComponent<Armour>().Defence * itemEffectivness(armour.shoes.GetComponent<Armour>().ItemElement);
 
         return helmet + chestPlate + greaves + shoes;
     }
 
     public void hurtHero()
     {
-        float result = (behaviour.getHealthDecreaseStep() - totalArmourDefence()) / itemEffectivness(buff.ItemElement);
+        float result = (behaviour.getHealthDecreaseStep() - totalArmourDefence()) / itemEffectivness(buff.GetComponent<Consumable>().ItemElement);
 
         health -= Mathf.RoundToInt(result);
     }
@@ -77,82 +78,99 @@ public class Hero : World {
         health += amount;
     }
 
-    private void useConsumable(Item item)
+    private void useConsumable(GameObject item)
     {
-        if(item.ItemElement == (int)Elements.Normal)
+        Consumable itemConsumable = item.GetComponent<Consumable>();
+        if(itemConsumable.ItemElement == (int)World.Elements.Normal)
         {
-            healHero(item.BuffImpact);
+            healHero(itemConsumable.BuffImpact);
             return;
         }
         
-        int oppositeElement = getOppositeElement(item.ItemElement);
+        int oppositeElement = worldScript.getOppositeElement(itemConsumable.ItemElement);
 
         buff = item;
-        UIScript.changeBuffs(item.ItemElement, oppositeElement, item.BuffImpact);
+        UIScript.changeBuffs(itemConsumable.ItemElement, oppositeElement, itemConsumable.BuffImpact);
 
     }
 
-    private void swapArmour(Item item)
+    private void swapArmour(GameObject item)
     {
-        if(item.ItemSlot.Equals("Helmet"))
+        GameObject previousItem;
+        Armour itemArmour = item.GetComponent<Armour>();
+        if (itemArmour.ItemSlot.Equals("Helmet"))
         {
-            Instantiate(armour.helmet);
+            previousItem = armour.helmet;
             armour.helmet = item;
             behaviour.helmetNeedsSwap = false;
         }
-        else if (item.ItemSlot.Equals("Chest Plate"))
+        else if (itemArmour.ItemSlot.Equals("Chest Plate"))
         {
-            Instantiate(armour.chestPlate);
+            previousItem = armour.chestPlate;
             armour.chestPlate = item;
             behaviour.chestNeedsSwap = false;
         }
-        else if (item.ItemSlot.Equals("Greaves"))
+        else if (itemArmour.ItemSlot.Equals("Greaves"))
         {
-            Instantiate(armour.greaves);
+            previousItem = armour.greaves;
             armour.greaves = item;
             behaviour.greavesNeedsSwap = false;
         }
-        else if (item.ItemSlot.Equals("Shoes"))
+        else if (itemArmour.ItemSlot.Equals("Shoes"))
         {
-            Instantiate(armour.shoes);
+            previousItem = armour.shoes;
             armour.shoes = item;
             behaviour.shoesNeedsSwap = false;
         }
+        else
+        {
+            previousItem = null;
+            Debug.LogError("I don't know what piece of armour I'm supposed to swap with. Have a look:\n" + itemArmour.ItemSlot);
+        }
+
+        previousItem.SetActive(true);
     }
 
-    private void swapWeapon(Item item)
+    private void swapWeapon(GameObject item)
     {
-        if(item.IsRanged)
+        GameObject previousItem;
+        if(item.GetComponent<Weapon>().IsRanged)
         {
-            Instantiate(weapons.secondaryWeapon);
+            previousItem = weapons.secondaryWeapon;
             weapons.secondaryWeapon = item;
             behaviour.secondaryNeedsSwap = false;
         }
         else
         {
-            Instantiate(weapons.primaryWeapon);
+            previousItem = weapons.primaryWeapon;
             weapons.primaryWeapon = item;
             behaviour.primaryNeedsSwap = false;
         }
+
+        previousItem.SetActive(true);
     }
 
-    private void processTheItem(Item item)
+    private void processTheItem(GameObject item)
     {
-        if(item.GetType() == typeof(Weapon))
+        if(item.GetComponent<Weapon>() != null)
         {
             swapWeapon(item);
         }
-        else if(item.GetType() == typeof(Armour))
+        else if(item.GetComponent<Armour>() != null)
         {
             swapArmour(item);
         }
-        else if(item.GetType() == typeof(Consumable))
+        else if(item.GetComponent<Consumable>() != null)
         {
             useConsumable(item);
         }
+        else
+        {
+            Debug.LogError("I couldn't tell what this was. Have a look: " + item.ToString());
+        }
     }
 
-    public void receiveItem(Item item)
+    public void receiveItem(GameObject item)
     {
         processTheItem(item);
     }
@@ -199,7 +217,7 @@ public class Hero : World {
     {
         if (health < autoPotHP)
         {
-            Item potion = null;
+            GameObject potion = null;
             timeBetweenPotCheck -= Time.deltaTime;
             if (timeBetweenPotCheck < 0)
             {
@@ -217,13 +235,21 @@ public class Hero : World {
         }
     }
 
+    private void equipDefaultGear()
+    {
+        weapons.secondaryWeapon = worldScript.getItemGOAt(3);
+        weapons.primaryWeapon = worldScript.getItemGOAt(0);
+    }
+
 	// Use this for initialization
 	void Start () {
         UIScript = GameObject.Find("Canvas").GetComponent<UI>();
         inventoryScript = GameObject.Find("Inventory").GetComponent<Inventory>();
+        worldScript = GameObject.Find("World").GetComponent<World>();
+        behaviour = GetComponent<Behaviour>();
         timeBetweenPotCheckStore = timeBetweenPotCheck;
         timeBetweenPotCheck = -1;
-
+        equipDefaultGear();
     }
 	
 	// Update is called once per frame

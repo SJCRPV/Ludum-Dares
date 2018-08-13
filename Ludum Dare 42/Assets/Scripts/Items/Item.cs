@@ -15,7 +15,7 @@ public class Item : World
     public int ItemType { get; private set; }
     public int ItemElement { get; private set; }
 
-    public Item(int nAttack, int nDps, bool nIsRanged, string nItemType, string nItemElement)
+    public void createWeapon(int nAttack, int nDps, bool nIsRanged, string nItemType, string nItemElement)
     {
         //Weapon
         Attack = nAttack;
@@ -25,7 +25,7 @@ public class Item : World
         ItemElement = getNameNumber(typeof(Elements), nItemElement);
     }
 
-    public Item(int nDefence, string nItemSlot, string nItemType, string nItemElement)
+    public void createArmour(int nDefence, string nItemSlot, string nItemType, string nItemElement)
     {
         //Armour 
         Defence = nDefence;
@@ -34,7 +34,7 @@ public class Item : World
         ItemElement = getNameNumber(typeof(Elements), nItemElement);
     }
 
-    public Item(int nBuffImpact, bool nIsConsumable, string nItemType, string nItemElement)
+    public void createConsumable(int nBuffImpact, bool nIsConsumable, string nItemType, string nItemElement)
     {
         //Consumables
         BuffImpact = nBuffImpact;

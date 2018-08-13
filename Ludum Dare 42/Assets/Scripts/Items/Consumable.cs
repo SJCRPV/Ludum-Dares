@@ -3,7 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Consumable : Item {
-    
-    public Consumable(int nBuffImpact, bool nIsConsumable, string nItemType, string nItemElement) : base(nBuffImpact, nIsConsumable, nItemType, nItemElement)
-    { }
+
+    [SerializeField]
+    private int buffImpact;
+    [SerializeField]
+    private bool isConsumable;
+    [SerializeField]
+    private string itemType;
+    [SerializeField]
+    private string itemElement;
+
+    public void Start()
+    {
+        createConsumable(buffImpact, isConsumable, itemType, itemElement);
+    }
 }

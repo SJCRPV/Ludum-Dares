@@ -35,12 +35,20 @@ public class World : MonoBehaviour
         Gold
     };
 
-    protected int getNameNumber(Type type, string itemType)
+    [SerializeField]
+    private GameObject[] ItemGOs;
+
+    public GameObject getItemGOAt(int index)
+    {
+        return ItemGOs[index];
+    }
+
+    public int getNameNumber(Type type, string itemType)
     {
         return (int)Enum.Parse(type, itemType);
     }
 
-    protected int getOppositeElement(int element)
+    public int getOppositeElement(int element)
     {
         switch (element)
         {

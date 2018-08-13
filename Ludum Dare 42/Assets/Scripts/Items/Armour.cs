@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Armour : Item {
 
-	public Armour(int nDefence, string nItemSlot, string nItemType, string nItemElement) : base(nDefence, nItemSlot, nItemType, nItemElement)
-    { }
+    [SerializeField]
+    private int defence;
+    [SerializeField]
+    private string itemSlot;
+    [SerializeField]
+    private string itemType;
+    [SerializeField]
+    private string itemElement;
+
+    public void Start()
+    {
+        createArmour(defence, itemSlot, itemType, itemElement);
+    }
 }
