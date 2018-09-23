@@ -35,3 +35,9 @@ As various conditions were met, certain areas would start to have creatures appe
 
 This entry resulted in an actual submission in the Jam version (72 hours instead of 48)
 It’s a prototype for an event-driven game. The player is put in charge of a colony ship on its way to a new planet to inhabit, but at the start, they do not have enough resources to get to the end. They need to manage their slowly draining resources of: power, morale and lives. This can be done so through picking the right responses for each event or by waiting at the system the ship is in to generate power. However, waiting too long will just cause another event to fire, so it’s best to not push your luck. At any time, should the player decide that the situation is hopeless, they are allowed to do a final speech for the entire ship.
+
+## **Ludum Dare 42**
+> Theme: Running Out Of Space
+
+The entire game was to be played inside a backpack where the player was tasked with assessing any new items that came in and manage the space while keeping the best gear. Not picking the best items would result in the hero losing health more quickly due to the non-ideal equipment. The hero would also ask to swap out the equipment, depending on what it would be fighting. But at the same time, the hero wouldn’t always be right and it would make sense to ignore him at times. The objective would be to simply last for as long as
+possible.
