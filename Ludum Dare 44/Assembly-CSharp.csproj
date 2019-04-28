@@ -67,8 +67,11 @@
     <Compile Include="Assets\Scripts\BeatManager.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\GetCamera.cs" />
+    <Compile Include="Assets\Scripts\InteractionWithGod.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerControls.cs" />
+    <Compile Include="Assets\Scripts\PlayMedia.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/SJCRPV/Documents/GitHub/Ludum-Dares/Ludum Dare 44/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

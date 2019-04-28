@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour {
 
     public static EnemyManager instance;
-    public GameObject CurrentEnemy { get; set; }
+    public Enemy CurrentEnemy { get; set; }
     private Transform parentTransform;
 
     [SerializeField]
@@ -19,6 +19,18 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] levelThreeEnemies;
 
+    private IEnumerator godlyInteraction()
+    {
+        while(InteractionWithGod.instance.IsInteractingWithGod)
+        {
+            yield return null;
+        }
+        currentLevelNum++;
+        currentEnemyIndex = 0;
+        BeatManager.instance.IsDroppingBeats = false;
+        InteractionWithGod.instance.IsInteractingWithGod = true;
+    }
+
     private GameObject[] getEnemiesFromThisLevel()
     {
         return currentLevelNum == 1 ? levelOneEnemies : currentLevelNum == 2 ? levelTwoEnemies : levelThreeEnemies;
@@ -28,13 +40,12 @@ public class EnemyManager : MonoBehaviour {
     {
         GameObject[] currentLevel = getEnemiesFromThisLevel();
 
-        CurrentEnemy = Instantiate(currentLevel[currentEnemyIndex], parentTransform, false);
-        if(++currentEnemyIndex >= currentLevel.Length)
+        if(currentEnemyIndex >= currentLevel.Length)
         {
-            currentLevelNum++;
-            currentEnemyIndex = 0;
-            currentLevel = getEnemiesFromThisLevel();
+            StartCoroutine(godlyInteraction());
         }
+
+        CurrentEnemy = Instantiate(currentLevel[currentEnemyIndex++], parentTransform, false).GetComponent<Enemy>();
     }
 
     // Use this for initialization

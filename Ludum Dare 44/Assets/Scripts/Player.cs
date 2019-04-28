@@ -8,19 +8,20 @@ public class Player : MonoBehaviour
     public static Player instance;
 
     [SerializeField]
-    public float DamageBonus { get; private set; } = 1f;
+    public float DamageBonus { get; set; } = 1f;
     [SerializeField]
     public float DefaultDamage { get; private set; } = 10f;
     [SerializeField]
-    public float BeatLeniency { get; private set; } = 0f;
+    public float BeatLeniency { get; set; } = 0f;
     [SerializeField]
-    public float MaxHealth { get; private set; } = 100f;
+    public float MaxHealth { get; set; } = 100f;
     [SerializeField]
-    public float CurrentHealth { get; private set; } = 100f;
+    public float CurrentHealth { get; set; } = 100f;
     [SerializeField]
     public float DamageToSelfPerPunch { get; private set; } = 5f;
 
     private Slider healthBar;
+    private Text healthNumbers;
 
     private bool amIDead()
     {
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     {
         CurrentHealth -= DamageToSelfPerPunch;
         healthBar.value = CurrentHealth / MaxHealth;
+        healthNumbers.text = string.Format("{0}/{1}", CurrentHealth, MaxHealth);
         if(amIDead())
         {
             Destroy(gameObject);
@@ -50,6 +52,8 @@ public class Player : MonoBehaviour
         }
         healthBar = transform.Find("Canvas").transform.Find("PlayerHealth").GetComponent<Slider>();
         healthBar.value = CurrentHealth / MaxHealth;
+        healthNumbers = transform.Find("Canvas").transform.Find("PlayerHealth").transform.Find("HealthNumbers").GetComponent<Text>();
+        healthNumbers.text = string.Format("{0}/{1}", CurrentHealth, MaxHealth);
     }
 
     // Update is called once per frame

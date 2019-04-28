@@ -11,15 +11,16 @@ public class BeatManager : MonoBehaviour {
     private int beatsPerMinute = 60;
     [SerializeField]
     private bool isDroppingBeats = true;
+    public bool IsDroppingBeats { get { return isDroppingBeats; } set { isDroppingBeats = value; } }
     [SerializeField]
     private double timeBetweenBeats;
     private double timeBetweenBeatsStore;
 
-    public bool IsDroppingBeats { get { return isDroppingBeats; } set { isDroppingBeats = value; } }
     public GameObject NextBeat { get; private set; }
 
     private Text beatTimingText;
     private GameObject beatEvaluatorObj;
+    private Transform beatQueueTransform;
 
     private void calcTimeBetweenBeats()
     {
@@ -34,8 +35,17 @@ public class BeatManager : MonoBehaviour {
 
     public void moveToNextBeat()
     {
-        int siblingIndex = NextBeat.transform.GetSiblingIndex();
-        NextBeat = NextBeat.transform.parent.GetChild(siblingIndex + 1).gameObject;
+        try
+        {
+            int siblingIndex = NextBeat.transform.GetSiblingIndex();
+            NextBeat = NextBeat.transform.parent.GetChild(siblingIndex + 1).gameObject;
+        }
+        catch
+        {
+            //Assuming that you just came out of the godly interaction screen, the NextBeat should be the one on sibling index 0
+            NextBeat = beatQueueTransform.GetChild(0).gameObject;
+        }
+        
     }
 
     // Use this for initialization
@@ -52,6 +62,7 @@ public class BeatManager : MonoBehaviour {
         beatEvaluatorObj = GameObject.Find("Centre");
         NextBeat = GameObject.Find("BeatQueue").transform.GetChild(0).gameObject;
         beatTimingText = GameObject.Find("BeatTiming").GetComponent<Text>();
+        beatQueueTransform = GameObject.Find("BeatQueue").transform;
 	}
 	
 	// Update is called once per frame
@@ -67,10 +78,20 @@ public class BeatManager : MonoBehaviour {
             timeBetweenBeats = timeBetweenBeatsStore;
         }
 
-        if(NextBeat.transform.position.x >= beatEvaluatorObj.transform.position.x + BeatEvaluator.instance.MaxFailureDistance)
+        if(!InteractionWithGod.instance.IsInteractingWithGod && NextBeat.transform.position.x >= beatEvaluatorObj.transform.position.x + BeatEvaluator.instance.MaxFailureDistance)
         {
             beatTimingText.text = "Miss!";
             moveToNextBeat();
+        }
+
+        if(beatQueueTransform.childCount > 0 && InteractionWithGod.instance.IsInteractingWithGod)
+        {
+            List<GameObject> temp = new List<GameObject>();
+            foreach(Transform child in beatQueueTransform)
+            {
+                temp.Add(child.gameObject);
+            }
+            temp.ForEach(child => Destroy(child));
         }
 	}
 }
