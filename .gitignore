@@ -1,0 +1,85 @@
+# ===========================
+# Default Collab Ignore Rules
+# ===========================
+
+# OS Generated
+# ============
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
+
+# Visual Studio / MonoDevelop generated
+# =====================================
+[Ee]xported[Oo]bj/
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+
+# Unity generated
+# ===============
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/Assets/AssetStoreTools*
+sysinfo.txt
+*.stackdump
+
+# Atom
+# ======
+*.meta
+*.unity.*
+
+# Visual Studio 2015 cache directory
+/.vs/
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D Generated File On Crash Reports
+sysinfo.txt
+
+# Builds
+*.apk
+*.unitypackage
+
+# Others
+/[Aa]ssets/[Rr]esources/[Ii]mg
+/[Aa]ssets/Anims
+/[Aa]ssets/Fonts
+/[Aa]ssets/*.meta
+/[Aa]ssets/Old~
+/[Aa]ssets/[Ss]treamingAssets/[Ll]evels
+/[Aa]ssets/[Aa]udio
+/Logs
+/Ludum Dare 45/Library
+/Ludum Dare 45/Logs
+/Ludum Dare 45/obj/Debug
+/Ludum Dare 45/Packages
+/Ludum Dare 45/ProjectSettings
+/Ludum Dare 45/Temp
+/Ludum Dare 45/.vs/Ludum Dare 45/v16/Server/sqlite3
