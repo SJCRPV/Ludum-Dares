@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class WeakPoint : MonoBehaviour
 {
+    SpriteRenderer spriteRenderer;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(!collision.GetComponent<CharacterControls>()) //Basically, if it's not the player
+        {
+            if(spriteRenderer == null)
+            {
+                Destroy(collision.gameObject);
+            }
+            else if(spriteRenderer.color == collision.GetComponent<SpriteRenderer>().color)
+            {
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }

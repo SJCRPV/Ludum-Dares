@@ -6,10 +6,22 @@ public class CharacterManager : MonoBehaviour
 {
     public static CharacterManager instance;
     public List<GameObject> charactersList;
+    public int NumOfCharacters { get; private set; } = 0;
     [SerializeField]
     private GameObject characterPrefab;
     private Transform charactersManagerObj;
     private int currControlledCharacterIndex;
+
+    public void ClearList()
+    {
+        foreach (GameObject character in charactersList)
+        {
+            character.GetComponent<CharacterControls>().ReleaseControl();
+            Destroy(character);
+        }
+        currControlledCharacterIndex = -1;
+        charactersList.Clear();
+    }
 
     public void SwapToNextCharacter()
     {
@@ -28,11 +40,16 @@ public class CharacterManager : MonoBehaviour
         charactersList[currControlledCharacterIndex].GetComponent<CharacterControls>().TakeControl();
     }
 
-    public void SpawnCharacterAt(Vector3 position)
+    public void SpawnCharacterAt(Vector3 position, bool controlThisCharacter = false)
     {
         GameObject character = Instantiate(characterPrefab, charactersManagerObj, false);
         character.transform.localPosition = position;
         charactersList.Add(character);
+        NumOfCharacters++;
+        if(controlThisCharacter)
+        {
+            character.GetComponent<CharacterControls>().TakeControl();
+        }
     }
 
     private void spawnInitialChar()
@@ -42,6 +59,7 @@ public class CharacterManager : MonoBehaviour
         Destroy(GameObject.Find("Grid").transform.Find(xCoord + ", " + yCoord).gameObject);
         Vector3 charPosition = GameObject.Find("Grid").GetComponent<Grid>().GetCellCenterLocal(new Vector3Int(xCoord, yCoord, 0));
         SpawnCharacterAt(charPosition);
+        charactersList[0].GetComponent<CharacterControls>().TakeControl();
     }
 
     // Start is called before the first frame update

@@ -14,19 +14,23 @@ public class CharacterControls : MonoBehaviour
         RIGHT = 3,
         NONE = 4
     }
+    public bool IsBeingControlled { get; private set; }
     private Vector3 characterMoveVector;
-    private bool IsBeingControlled;
     private bool isCarryingBlock;
     private Directions currentDirection;
     private SpriteRenderer currHoldingBlock;
     private Image uiBlockImage;
+    [SerializeField]
+    private Sprite highLightedSprite;
+    [SerializeField]
+    private Sprite nonHightlightedSprite;
     [SerializeField]
     private float inputDelay;
     private float inputDelayStore;
     
     private void removeHightlightOfCharacter()
     {
-        
+        GetComponentInChildren<SpriteRenderer>().sprite = nonHightlightedSprite;
     }
 
     public void ReleaseControl()
@@ -37,7 +41,7 @@ public class CharacterControls : MonoBehaviour
 
     private void highlightCharacter()
     {
-
+        GetComponentInChildren<SpriteRenderer>().sprite = highLightedSprite;
     }
 
     public void TakeControl()
@@ -75,7 +79,7 @@ public class CharacterControls : MonoBehaviour
         Ray2D ray = new Ray2D(potentialPos, Vector2.zero);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, Vector2.zero);
 
-        return hit.collider == null ? null : hit.collider.GetComponent<SpriteRenderer>();
+        return hit.collider?.GetComponent<SpriteRenderer>();
     }
 
     private Vector3 getPositionOffset()
@@ -116,9 +120,17 @@ public class CharacterControls : MonoBehaviour
         if (posOffset != Vector3.zero)
         {
             currHoldingBlock = isThereBlockAt(transform.position + posOffset);
+
             if(currHoldingBlock != null)
             {
-                storeBlock();
+                if (currHoldingBlock.gameObject.name.Contains("Enemy") || currHoldingBlock.gameObject.name.Contains("Stairs"))
+                {
+                    currHoldingBlock = null;
+                }
+                else
+                {
+                    storeBlock();
+                }
             }
         }
     }
@@ -207,8 +219,8 @@ public class CharacterControls : MonoBehaviour
         if(isThereBlockAt(transform.position + moveVector) == null && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
         {
             transform.position = transform.position + moveVector;
+            LevelManager.instance.AnnounceStep();
         }
-
     }
 
     private void checkForKeyPresses()
@@ -241,6 +253,9 @@ public class CharacterControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        checkForKeyPresses();
+        if(IsBeingControlled)
+        {
+            checkForKeyPresses();
+        }
     }
 }
