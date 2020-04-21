@@ -15,11 +15,18 @@ It’s a prototype for an event-driven game. The player is put in charge of a co
 This entry, the very first one I completed, was intended to be a game in isometric view where the player's objective was to walk through a city looking to assassinate someone, but that someone knows what the player looks like. As such, the player had a need to snatch people and killing them to take their form. However, when the bodies were found, the target received an update on how the player looked, forcing him/her to keep changing. The player would not be capable of taking out the target if it knew how they looked.
 
 # **Unsubmitted Entries**
+
+## **Ludum Dare 46**
+> Theme: Keep it alive
+
+What I tried to do in this attempt was to both learn how to use Unity’s Tilemap features, and to try out and learn how to use the SOLID programming principles. Additionally, I was in the mood to make a roguelike, so I adapted the theme into one. The resulting idea ended up with me wanting to make a game about a golem with an exposed flame in its core that is constantly waning. It could be replenished by absorbing other fires, but the vegetation is not enough and so, after reaching a nearby town rumoured to have an eternal flame, the golem decides to steal to avoid this constant struggle for survival. It is not a fighter, though, and the townsfolk are not friendly to golems, so the player must stealth their way around the town and figure out where it might be.
+
+I didn’t get close to completing it, but I got to try out these new features and ideas.
+
 ## **Ludum Dare 44**
 > Theme: Your life is currency
 
 My main objective during this event was to attempt something related to a rhythm game, as I had yet to try it. It was played over simple combat where the player had to input attacks either from the left or the right, each with an "UP", "DOWN", "LEFT" and "RIGHT" modifiers. But because life was currency, every single input the player gave would cost them health. The only way to mitigate that would be to make the right inputs at the right time, as they did more damage to the enemy. When it comes to the rhythm system, I succeeded in learning what I wanted, which I suppose was what caused me to then lose the will to continue at the end, as my goal had been acheived.
-
 
 ## **Ludum Dare 42**
 > Theme: Running Out Of Space
